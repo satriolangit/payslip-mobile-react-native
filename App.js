@@ -1,28 +1,19 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import {Navigation} from 'react-native-navigation';
+import {Provider} from 'react-redux';
+import configureStore from './src/store/configureStore';
+import {registerScreens} from './src/screens';
 
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {WebView} from 'react-native-webview';
+const store = configureStore();
 
-const App = () => {
-  return (
-    <WebView
-      source={{uri: 'http://www.hrinformationsystem.com'}}
-      style={styles.container}
-    />
-  );
-};
+registerScreens(Provider, store);
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 0,
-  },
+//Start an App
+Navigation.events().registerAppLaunchedListener(async () => {
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: 'eslip.WelcomeScreen',
+      },
+    },
+  });
 });
-
-export default App;
