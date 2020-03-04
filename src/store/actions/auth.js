@@ -52,7 +52,7 @@ export const login = authData => async dispatch => {
     dispatch({
       type: LOGIN_FAIL,
       payload: {
-        message: 'error catch',
+        message: 'Invalid Credentials',
       },
     });
   }

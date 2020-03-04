@@ -4,8 +4,8 @@ import {goToLogin, startApp} from '../../navigations';
 
 export default class WelcomeScreen extends React.Component {
   async componentDidMount() {
-    await AsyncStorage.clear();
     try {
+      await AsyncStorage.clear();
       const token = await AsyncStorage.getItem('TOKEN');
       console.log('token: ', token);
       if (token) {
