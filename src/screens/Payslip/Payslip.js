@@ -15,7 +15,7 @@ import moment from 'moment';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import RNFetchBlob from 'rn-fetch-blob';
-import {API_URL} from '../../../appSetting';
+import {API_URL, PAYSLIP_URL} from '../../../appSetting';
 
 class PayslipScreen extends Component {
   constructor(props) {
@@ -83,10 +83,7 @@ class PayslipScreen extends Component {
   // };
 
   download(filename) {
-    var date = new Date();
-    const url = 'http://156.67.221.93:3001/payslip/202002_4316_NOVITASARI.pdf';
-    var ext = this.extention(url);
-    ext = '.' + ext[0];
+    const url = PAYSLIP_URL + filename;
     const {config, fs} = RNFetchBlob;
     let DownloadDir = fs.dirs.DownloadDir;
 
@@ -107,9 +104,6 @@ class PayslipScreen extends Component {
         //const android = RNFetchBlob.android;
         //android.actionViewIntent(opts.path, 'application/pdf');
       });
-  }
-  extention(filename) {
-    return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined;
   }
 
   handleItemPressed = filename => {
