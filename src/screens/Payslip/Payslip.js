@@ -82,8 +82,10 @@ class PayslipScreen extends Component {
   handleRefresh = async () => {
     this.setState({isRefreshing: true});
     try {
-      const url = API_URL + '/payslip/' + this.props.user.employee_id + '/1';
+      const url = API_URL + 'payslip/' + this.props.user.employee_id + '/1';
+      console.log(url);
       const res = await axios.get(url);
+      console.log(res.data);
       const payslip = res.data.data[0];
       this.setState({isRefreshing: false, payslip});
     } catch (error) {
@@ -94,45 +96,74 @@ class PayslipScreen extends Component {
   };
 
   renderFooterText = () => {
-    // const month = moment()
-    //   .month(this.state.payslip.month)
-    //   .format('MMMM');
+    const month = moment()
+      .month(this.state.payslip.month)
+      .format('MMMM');
 
-    // return (
-    //   <Text styles={styles.cardFooterText}>
-    //     {month + ' ' + this.state.payslip.year}
-    //   </Text>
-    // );
-
-    return <Text>Footer</Text>;
+    return (
+      <Text styles={styles.cardFooterText}>
+        {month + ' ' + this.state.payslip.year}
+      </Text>
+    );
   };
 
-  render() {
-    return (
-      <ScrollView
-        contentContainerStyle={styles.container}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={this.handleRefresh}
-          />
-        }>
-        <View style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.heading}>Payslip file</Text>
-          </View>
-          <TouchableOpacity
-            onPress={this.handleItemPressed}
-            activeOpacity={0.8}>
-            <View style={styles.cardItem}>
-              <Icon name="doc" size={30} color="#aaa" style={styles.icon} />
-              <Text style={styles.cardItemText}>{this.state.filename}</Text>
-            </View>
-          </TouchableOpacity>
-          <View styles={styles.cardFooter}>{this.renderFooterText()}</View>
+  renderNoData = () => (
+    <ScrollView
+      contentContainerStyle={styles.container}
+      refreshControl={
+        <RefreshControl
+          refreshing={this.state.isRefreshing}
+          onRefresh={this.handleRefresh}
+        />
+      }>
+      <View style={styles.card}>
+        <View style={styles.cardHeader}>
+          <Text style={styles.heading}>Payslip file</Text>
         </View>
-      </ScrollView>
-    );
+        <View style={styles.cardItem}>
+          <Icon name="doc" size={30} color="#aaa" style={styles.icon} />
+          <Text style={styles.cardItemText}>'Tidak ada data'</Text>
+        </View>
+      </View>
+    </ScrollView>
+  );
+
+  render() {
+    if (this.state.payslip === null) {
+      return (
+        <View style={styles.card}>
+          <Text>Tidak ada data</Text>
+        </View>
+      );
+    } else {
+      return (
+        <ScrollView
+          contentContainerStyle={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }>
+          <View style={styles.card}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.heading}>Payslip file</Text>
+            </View>
+            <TouchableOpacity
+              onPress={this.handleItemPressed}
+              activeOpacity={0.8}>
+              <View style={styles.cardItem}>
+                <Icon name="doc" size={30} color="#aaa" style={styles.icon} />
+                <Text style={styles.cardItemText}>
+                  {this.state.payslip.filename}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View styles={styles.cardFooter}>{this.renderFooterText()}</View>
+          </View>
+        </ScrollView>
+      );
+    }
   }
 }
 
@@ -163,7 +194,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   cardItemText: {
-    fontSize: 20,
+    fontSize: 16,
   },
   cardFooter: {
     padding: 5,

@@ -5,7 +5,6 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import {connect} from 'react-redux';
@@ -15,6 +14,12 @@ import {logout} from '../../store/actions/index';
 import UserPanel from '../../components/SideBarUserPanel/UserPanel';
 
 class SideDrawer extends Component {
+  constructor(props) {
+    super(props);
+
+    //Navigation.events().bindComponent(this);
+  }
+
   handleSignOut = () => {
     this.props.onSignOut();
   };
