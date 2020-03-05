@@ -14,6 +14,7 @@ import axios from 'axios';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import RNFetchBlob from 'rn-fetch-blob';
 import {API_URL} from '../../../appSetting';
 
 class PayslipScreen extends Component {
@@ -50,34 +51,77 @@ class PayslipScreen extends Component {
     });
   };
 
-  handleItemPressed = async filename => {
-    //get base64
-    try {
-      const url = API_URL + 'payslip/open/' + filename;
+  // handleItemPressed = async filename => {
+  //   //get base64
+  //   try {
+  //     const url = API_URL + 'payslip/open/' + filename;
 
-      const res = await axios.get(url);
-      const pdf = res.data.response;
-      const source = {uri: 'data:application/pdf;base64,' + pdf};
-      console.log(source);
+  //     const res = await axios.get(url);
+  //     const pdf = res.data.response;
+  //     const source = {uri: 'data:application/pdf;base64,' + pdf};
+  //     console.log(source);
 
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'eslip.PayslipDetailScreen',
-          passProps: {
-            source: source,
-          },
-          options: {
-            topBar: {
-              title: {
-                text: 'Detail',
-              },
-            },
-          },
-        },
+  //     Navigation.push(this.props.componentId, {
+  //       component: {
+  //         name: 'eslip.PayslipDetailScreen',
+  //         passProps: {
+  //           source: source,
+  //         },
+  //         options: {
+  //           topBar: {
+  //             title: {
+  //               text: 'Detail',
+  //             },
+  //           },
+  //         },
+  //       },
+  //     });
+  //   } catch (error) {
+  //     Alert.alert('Failed to open file');
+  //     console.log('error:', error);
+  //   }
+  // };
+
+  download(filename) {
+    var date = new Date();
+    const url = 'http://156.67.221.93:3001/payslip/202002_4316_NOVITASARI.pdf';
+    var ext = this.extention(url);
+    ext = '.' + ext[0];
+    const {config, fs} = RNFetchBlob;
+    let DownloadDir = fs.dirs.DownloadDir;
+
+    let opts = {
+      fileCache: true,
+      addAndroidDownloads: {
+        useDownloadManager: true,
+        notification: true,
+        path: DownloadDir + '/' + filename,
+        description: 'Pdf',
+      },
+    };
+
+    config(opts)
+      .fetch('GET', url)
+      .then(res => {
+        Alert.alert('Download selesai', opts.addAndroidDownloads.path);
+        //const android = RNFetchBlob.android;
+        //android.actionViewIntent(opts.path, 'application/pdf');
       });
+  }
+  extention(filename) {
+    return /[.]/.exec(filename) ? /[^.]+$/.exec(filename) : undefined;
+  }
+
+  handleItemPressed = filename => {
+    try {
+      this.download(filename);
     } catch (error) {
-      Alert.alert('Failed to open file');
-      console.log('error:', error);
+      Alert(
+        'Gagal',
+        'Download payslip gagal, silahkan cek permission di hp anda',
+      );
+
+      console.log(error);
     }
   };
 
@@ -144,9 +188,18 @@ class PayslipScreen extends Component {
       this.state.payslip === null
     ) {
       return (
-        <View style={styles.card}>
-          <Text>Tidak ada data</Text>
-        </View>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }>
+          <View style={styles.card}>
+            <Text>Tidak ada data</Text>
+          </View>
+        </ScrollView>
       );
     } else {
       return (

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
-import profilePicture from '../../assets/images/rama.jpg';
+import profilePicture from '../../assets/images/no-image.jpg';
 
 class UserPanel extends Component {
   render() {
