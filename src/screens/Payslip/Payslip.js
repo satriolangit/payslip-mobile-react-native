@@ -129,7 +129,10 @@ class PayslipScreen extends Component {
   );
 
   render() {
-    if (this.state.payslip === null) {
+    if (
+      typeof this.state.payslip === 'undefined' ||
+      this.state.payslip === null
+    ) {
       return (
         <View style={styles.card}>
           <Text>Tidak ada data</Text>
