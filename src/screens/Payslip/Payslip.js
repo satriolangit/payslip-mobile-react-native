@@ -54,9 +54,11 @@ class PayslipScreen extends Component {
     //get base64
     try {
       const url = API_URL + 'payslip/open/' + filename;
+
       const res = await axios.get(url);
-      const pdf = res.data;
+      const pdf = res.data.response;
       const source = {uri: 'data:application/pdf;base64,' + pdf};
+      console.log(source);
 
       Navigation.push(this.props.componentId, {
         component: {
@@ -107,6 +109,14 @@ class PayslipScreen extends Component {
     );
   };
 
+  renderFileDate = () => {
+    const month = moment()
+      .month(this.state.payslip.month)
+      .format('MMMM');
+
+    return month + ' ' + this.state.payslip.year;
+  };
+
   renderNoData = () => (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -150,10 +160,14 @@ class PayslipScreen extends Component {
           }>
           <View style={styles.card}>
             <View style={styles.cardHeader}>
-              <Text style={styles.heading}>Payslip file</Text>
+              <Text style={styles.heading}>
+                Payslip {this.renderFileDate()}
+              </Text>
             </View>
             <TouchableOpacity
-              onPress={this.handleItemPressed}
+              onPress={() =>
+                this.handleItemPressed(this.state.payslip.filename)
+              }
               activeOpacity={0.8}>
               <View style={styles.cardItem}>
                 <Icon name="doc" size={30} color="#aaa" style={styles.icon} />
@@ -162,7 +176,6 @@ class PayslipScreen extends Component {
                 </Text>
               </View>
             </TouchableOpacity>
-            <View styles={styles.cardFooter}>{this.renderFooterText()}</View>
           </View>
         </ScrollView>
       );

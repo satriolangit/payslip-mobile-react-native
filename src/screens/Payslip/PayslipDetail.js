@@ -1,20 +1,28 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {WebView} from 'react-native-webview';
+import {StyleSheet, Dimensions, View} from 'react-native';
+
+import Pdf from 'react-native-pdf';
 
 class PayslipDetailScreen extends Component {
-  state = {
-    htmlContent: '<h1>Hello from WebView</h1>',
-  };
   render() {
+    console.log(this.props.source);
     return (
-      <View>
-        <Text>PayslipDetailScreen</Text>
-        <WebView
-          style={styles.container}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          source={{html: this.state.htmlContent}}
+      <View style={styles.container}>
+        <Pdf
+          source={this.props.source}
+          onLoadComplete={(numberOfPages, filePath) => {
+            console.log(`number of pages: ${numberOfPages}`);
+          }}
+          onPageChanged={(page, numberOfPages) => {
+            console.log(`current page: ${page}`);
+          }}
+          onError={error => {
+            console.log(error);
+          }}
+          onPressLink={uri => {
+            console.log(`Link presse: ${uri}`);
+          }}
+          style={styles.pdf}
         />
       </View>
     );
@@ -22,7 +30,16 @@ class PayslipDetailScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 25,
+  },
+  pdf: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+  },
 });
 
 export default PayslipDetailScreen;
