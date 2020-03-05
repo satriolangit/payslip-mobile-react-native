@@ -1,27 +1,58 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import {WebView} from 'react-native-webview';
+import HTMLView from 'react-native-htmlview';
+import moment from 'moment';
 
 class AnnouncementDetailScreen extends Component {
   state = {
-    htmlContent:
-      '<a href="/pages/information/ca0cceb7-9403-420b-abbe-b6153bcfa079"><h3>Tips Sehat di Musim Hujan</h3></a><p style="text-align: left;"><span style="font-family: georgia;"><strong>Cuaca akhir-akhir ini yang tidak menentu menjadi penyebab berbagai macam virus seperti flu,,, berikut ini tips sederhana meringankan atau mencegah flu.</strong></span></p><p></p><img src="http://hrinformationsystem.com:3001/files/whatsapp_image_2020-01-08_at_07.48.19.jpeg" alt="undefined" style="float: none; height: auto; width: 100%;"><p></p><p></p><div><span class="badge badge-success">Posted January 08 2020, 08:21:05</span></div><hr>',
+    htmlContent: '',
   };
-
   render() {
     return (
-      <WebView
-        style={styles.container}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        source={{html: this.state.htmlContent}}
-      />
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.headingContainer}>
+          <Text style={styles.heading}>{this.props.announcement.title}</Text>
+          <Text style={styles.subtitle}>
+            {moment(this.props.announcement.created_on).format(
+              'MMMM DD YYYY, HH:mm:ss',
+            )}
+          </Text>
+        </View>
+        <View style={styles.htmlContainer}>
+          <HTMLView
+            value={this.props.announcement.text}
+            stylesheet={htmlStyles}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {justifyContent: 'flex-start'},
+  headingContainer: {
+    padding: 10,
+  },
+  heading: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#63c2de',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#aaa',
+    textAlign: 'center',
+  },
+  htmlContainer: {},
+});
+
+const htmlStyles = StyleSheet.create({
+  p: {
+    margin: 10,
+    fontSize: 16,
+    color: '#555',
+  },
 });
 
 export default AnnouncementDetailScreen;

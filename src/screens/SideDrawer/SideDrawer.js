@@ -5,9 +5,11 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import {connect} from 'react-redux';
+import Navigation from 'react-native-navigation';
 
 import {logout} from '../../store/actions/index';
 import UserPanel from '../../components/SideBarUserPanel/UserPanel';
@@ -16,6 +18,15 @@ class SideDrawer extends Component {
   handleSignOut = () => {
     this.props.onSignOut();
   };
+
+  handleItemPress = tabIndex => {
+    // Navigation.mergeOptions(this.props.componentId, {
+    //   bottomTabs: {
+    //     currentTabIndex: tabIndex,
+    //   },
+    // });
+    //Alert.alert('index', tabIndex);
+  };
   render() {
     const {photo, name, role, employee_id} = this.props.user;
     return (
@@ -23,7 +34,9 @@ class SideDrawer extends Component {
         <View style={styles.userContainer}>
           <UserPanel photo={photo} name={name} nik={employee_id} />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.handleItemPress('0')}>
           <View style={styles.drawerItem}>
             <SimpleIcon
               name="speedometer"
@@ -34,7 +47,9 @@ class SideDrawer extends Component {
             <Text style={styles.drawerLabel}>Dashboard</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.handleItemPress(1)}>
           <View style={styles.drawerItem}>
             <SimpleIcon
               name="book-open"
@@ -45,7 +60,9 @@ class SideDrawer extends Component {
             <Text style={styles.drawerLabel}>Informasi</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => this.handleItemPress(2)}>
           <View style={styles.drawerItem}>
             <SimpleIcon
               name="bell"
@@ -56,7 +73,7 @@ class SideDrawer extends Component {
             <Text style={styles.drawerLabel}>Pengumuman</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.handleSignOut}>
+        <TouchableOpacity onPress={this.handleSignOut} activeOpacity={0.8}>
           <View style={styles.drawerItem}>
             <SimpleIcon
               name="lock-open"
@@ -74,7 +91,7 @@ class SideDrawer extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
+    paddingTop: 10,
     backgroundColor: '#2f353a',
     flex: 1,
     width: Dimensions.get('window').width * 0.5,
@@ -94,6 +111,8 @@ const styles = StyleSheet.create({
   userContainer: {
     width: '90%',
     height: 150,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
   },
 });
 

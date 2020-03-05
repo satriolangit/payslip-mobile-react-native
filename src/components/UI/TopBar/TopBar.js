@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image} from 'react-native';
 import Logo from '../../../assets/images/logo_payslip.png';
 
 const TopBar = () => {

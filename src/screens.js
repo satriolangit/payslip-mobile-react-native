@@ -10,7 +10,9 @@ import InformationDetailScreen from './screens/Information/InformationDetail';
 import PayslipScreen from './screens/Payslip/Payslip';
 import PayslipDetailScreen from './screens/Payslip/PayslipDetail';
 import TopBar from './components/UI/TopBar/TopBar';
-import WelcomeScreen from './screens/Welcome/Welcome';
+import App from '../App';
+import FindPlaceScreen from './screens/FindPlace/FindPlace';
+import SharePlaceScreen from './screens/SharePlace/SharePlace';
 
 const registerScreens = (Provider, store) => {
   //Register Screens
@@ -69,7 +71,19 @@ const registerScreens = (Provider, store) => {
     store,
   );
   Navigation.registerComponent('eslip.TopBar', () => TopBar);
-  Navigation.registerComponent('eslip.WelcomeScreen', () => WelcomeScreen);
+  Navigation.registerComponent('eslip.App', () => App);
+  Navigation.registerComponentWithRedux(
+    'eslip.FindPlaceScreen',
+    () => FindPlaceScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.SharePlaceScreen',
+    () => SharePlaceScreen,
+    Provider,
+    store,
+  );
 };
 
 export {registerScreens};

@@ -20,12 +20,12 @@ class LoginScreen extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    console.log('componentDidUpdate:', prevProps);
-    if (this.props.error) {
-      //Alert.alert('error', this.props.error);
-      //this.props.onClearError();
-      console.log('error login');
-    }
+    // console.log('componentDidUpdate:', prevProps);
+    // if (this.props.error) {
+    //   //Alert.alert('error', this.props.error);
+    //   //this.props.onClearError();
+    //   console.log('error login');
+    // }
   }
 
   loginHandler = () => {
@@ -34,14 +34,26 @@ class LoginScreen extends Component {
     //console.log(this.props.token);
   };
 
+  handleInputChange = () => {};
+
   render() {
     return (
       <ImageBackground source={BackgroundImage} style={styles.backgroundImage}>
         <View style={styles.container}>
-          <Text style={styles.heading4}>Login</Text>
           <View style={styles.formContainer}>
-            <TextInput placeholder="Masukkan NIK" style={styles.input} />
-            <TextInput placeholder="Masukkan Password" style={styles.input} />
+            <Text style={styles.heading4}>Login</Text>
+            <TextInput
+              placeholder="Masukkan NIK"
+              style={styles.input}
+              onChangeText={text => this.setState({nik: text})}
+              keyboardType="number-pad"
+            />
+            <TextInput
+              placeholder="Masukkan Password"
+              style={styles.input}
+              onChangeText={text => this.setState({password: text})}
+              secureTextEntry={true}
+            />
             <View>
               <Button title="Login" onPress={this.loginHandler} />
             </View>
@@ -66,11 +78,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 5,
+    opacity: 0.8,
+    borderWidth: 2,
+    borderColor: '#bbb',
   },
   heading4: {
     fontSize: 28,
-    color: '#eee',
+    color: 'black',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   input: {
     borderWidth: 1,

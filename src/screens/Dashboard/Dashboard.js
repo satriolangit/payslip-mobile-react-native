@@ -9,16 +9,14 @@ import {
   RefreshControl,
 } from 'react-native';
 import {Navigation} from 'react-native-navigation';
-import axios from 'axios';
 
-import {loadDashboardData} from '../../store/actions/index';
+import {fetchDasboard} from '../../store/actions/index';
 import CalendarWidget from '../../components/Widgets/CalendarWidget';
 import PayslipWidget from '../../components/Widgets/PayslipWidget';
 import InformationWidget from '../../components/Widgets/InformationWidget';
 import AnnouncementWidget from '../../components/Widgets/AnnouncementWidget';
 import InformationListWidget from '../../components/Widgets/InformationListWidget';
 import AnnouncementListWidget from '../../components/Widgets/AnnouncementListWidget';
-import {API_URL} from '../../../appSetting';
 
 class DashboardScreen extends Component {
   constructor(props) {
@@ -55,15 +53,70 @@ class DashboardScreen extends Component {
     this.setState({refreshing: false});
   };
 
-  handleInfoListPress = async info => {
-    try {
-      const url = API_URL + 'connect';
-      const res = await axios.get(url);
+  handleInfoListPress = info => {
+    const title =
+      info.title.length > 30 ? info.title.substr(0, 30) + '...' : info.title;
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'eslip.InformationDetailScreen',
+        passProps: {
+          information: info,
+        },
+        options: {
+          topBar: {
+            title: {
+              text: title,
+            },
+          },
+        },
+      },
+    });
+  };
 
-      Alert.alert('axios', res.data.result);
-    } catch (error) {
-      Alert.alert(error.message);
-    }
+  handlePayslipPress = async () => {
+    Navigation.mergeOptions(this.props.componentId, {
+      bottomTabs: {
+        currentTabIndex: 3,
+      },
+    });
+  };
+
+  handleInfoWidgetPress = async () => {
+    Navigation.mergeOptions(this.props.componentId, {
+      bottomTabs: {
+        currentTabIndex: 1,
+      },
+    });
+  };
+
+  handleAnnouncementWidgetPress = async () => {
+    Navigation.mergeOptions(this.props.componentId, {
+      bottomTabs: {
+        currentTabIndex: 2,
+      },
+    });
+  };
+
+  handleAnnouncementListPress = announcement => {
+    const title =
+      announcement.title.length > 30
+        ? announcement.title.substr(0, 30) + '...'
+        : announcement.title;
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'eslip.AnnouncementDetailScreen',
+        passProps: {
+          announcement: announcement,
+        },
+        options: {
+          topBar: {
+            title: {
+              text: title,
+            },
+          },
+        },
+      },
+    });
   };
 
   componentDidMount() {
@@ -85,15 +138,21 @@ class DashboardScreen extends Component {
             <CalendarWidget />
           </View>
           <View style={styles.widgetColumn}>
-            <PayslipWidget />
+            <PayslipWidget onPress={this.handlePayslipPress} />
           </View>
         </View>
         <View style={styles.widgetContainer}>
           <View style={styles.widgetColumn}>
-            <InformationWidget title={this.props.informationCount} />
+            <InformationWidget
+              title={this.props.informationCount}
+              onPress={this.handleInfoWidgetPress}
+            />
           </View>
           <View style={styles.widgetColumn}>
-            <AnnouncementWidget title={this.props.announcementCount} />
+            <AnnouncementWidget
+              title={this.props.announcementCount}
+              onPress={this.handleAnnouncementWidgetPress}
+            />
           </View>
         </View>
         <View style={styles.panelContainer}>
@@ -103,7 +162,10 @@ class DashboardScreen extends Component {
           />
         </View>
         <View style={styles.panelContainer}>
-          <AnnouncementListWidget data={this.props.latestAnnouncements} />
+          <AnnouncementListWidget
+            data={this.props.latestAnnouncements}
+            onPress={this.handleAnnouncementListPress}
+          />
         </View>
       </ScrollView>
     );
@@ -134,14 +196,14 @@ const mapStateToProps = state => {
   return {
     informationCount: state.dashboard.informationToday,
     announcementCount: state.dashboard.announcementToday,
-    latestInformations: state.dashboard.informations,
-    latestAnnouncements: state.dashboard.announcements,
+    latestInformations: state.dashboard.latestInformation,
+    latestAnnouncements: state.dashboard.latestAnnouncement,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onPageRefreshed: () => dispatch(loadDashboardData()),
+    onPageRefreshed: () => dispatch(fetchDasboard()),
   };
 };
 

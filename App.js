@@ -1,19 +1,42 @@
-import {Navigation} from 'react-native-navigation';
-import {Provider} from 'react-redux';
-import configureStore from './src/store/configureStore';
-import {registerScreens} from './src/screens';
+import React from 'react';
+import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
+import {goToLogin, startApp} from './src/navigations';
 
-const store = configureStore();
+class App extends React.Component {
+  async componentDidMount() {
+    try {
+      await AsyncStorage.clear();
+      const token = await AsyncStorage.getItem('TOKEN');
+      console.log('token: ', token);
+      if (token) {
+        startApp();
+      } else {
+        goToLogin();
+      }
+    } catch (err) {
+      console.log('error: ', err);
+      goToLogin();
+    }
+  }
 
-registerScreens(Provider, store);
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>Loading</Text>
+      </View>
+    );
+  }
+}
 
-//Start an App
-Navigation.events().registerAppLaunchedListener(async () => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'eslip.WelcomeScreen',
-      },
-    },
-  });
+const styles = StyleSheet.create({
+  welcome: {
+    fontSize: 24,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
+
+export default App;

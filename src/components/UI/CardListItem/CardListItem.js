@@ -1,8 +1,19 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import moment from 'moment';
 
 class CardListItem extends Component {
+  renderText = text => {
+    const cleanText = text.replace(/(<([^>]+)>)/gi, '');
+    let result = cleanText;
+    if (cleanText.length > 100) {
+      result = cleanText.substr(0, 100) + '...';
+    }
+
+    return result;
+  };
+
   render() {
     return (
       <TouchableOpacity
@@ -11,10 +22,14 @@ class CardListItem extends Component {
         activeOpacity={0.7}>
         <View>
           <Text style={styles.title}>{this.props.item.title}</Text>
-          <Text style={styles.text}>{this.props.item.text}</Text>
+          <Text style={styles.text}>
+            {this.renderText(this.props.item.text)}
+          </Text>
           <View style={styles.textMutedContainer}>
             <Icon name="clock" size={10} color="#aaa" />
-            <Text style={styles.textMuted}>{this.props.item.created_on}</Text>
+            <Text style={styles.textMuted}>
+              {moment(this.props.created_on).format('MMMM DD YYYY, HH:mm:ss')}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -39,6 +54,7 @@ const styles = StyleSheet.create({
   textMutedContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingTop: 10,
   },
   textMuted: {
     fontSize: 12,

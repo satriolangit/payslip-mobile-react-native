@@ -5,9 +5,13 @@ import CardItem from '../UI/CardListItem/CardListItem';
 
 class AnnouncementListWidget extends Component {
   renderItems = () => {
-    return this.props.data.map(item => (
-      <CardItem item={item} onPress={this.props.onPress} key={item.id} />
-    ));
+    if (this.props.data.length > 0) {
+      return this.props.data.map(item => (
+        <CardItem item={item} onPress={this.props.onPress} key={item.id} />
+      ));
+    } else {
+      return <Text>Tidak ada data</Text>;
+    }
   };
 
   render() {

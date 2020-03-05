@@ -1,23 +1,27 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  Image,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
-
-import {Thumbnail} from 'native-base';
+import {FlatList, RefreshControl, StyleSheet} from 'react-native';
+import axios from 'axios';
 import {Navigation} from 'react-native-navigation';
+
+import ListItem from '../../components/UI/CardListItem/CardListItem';
+import {API_URL} from '../../../appSetting';
 
 class InformationScreen extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      data: [],
+      isRefreshing: false,
+    };
+
     Navigation.events().bindComponent(this);
   }
+
+  componentDidMount() {
+    this.handleRefresh();
+  }
+
   navigationButtonPressed({buttonId}) {
     if (buttonId === 'sideDrawerToggle') {
       this.toggleDrawer();
@@ -36,17 +40,19 @@ class InformationScreen extends Component {
     });
   };
 
-  detailHandler = () => {
+  handleItemPressed = item => {
+    const title =
+      item.title.length > 30 ? item.title.substr(0, 30) + '...' : item.title;
     Navigation.push(this.props.componentId, {
       component: {
         name: 'eslip.InformationDetailScreen',
         passProps: {
-          informationId: 0,
+          information: item,
         },
         options: {
           topBar: {
             title: {
-              text: 'Detail',
+              text: title,
             },
           },
         },
@@ -54,36 +60,46 @@ class InformationScreen extends Component {
     });
   };
 
+  handleRefresh = async () => {
+    this.setState({isRefreshing: true});
+    try {
+      let url = API_URL + 'information';
+      const res = await axios.get(url);
+
+      this.setState({data: res.data.data});
+    } catch (err) {
+      console.log(err);
+    }
+    this.setState({isRefreshing: false});
+  };
+
   render() {
     return (
-      <View>
-        <Text>InformationScreen</Text>
-        <Image
-          source={{
-            uri:
-              'http://1.bp.blogspot.com/-kQuQTyXq0N4/VEOQyyboUvI/AAAAAAAAAm4/WFF40EcSaAQ/s1600/foto-obyek-wisata-candi-prambanan-yogyakarta.jpg',
-          }}
-          style={styles.image}
-        />
-        <Thumbnail
-          source={{uri: 'http://hrinformationsystem.com:3001/photos/admin.png'}}
-        />
-        <Image
-          style={{width: 50, height: 50, borderWidth: 2, borderColor: 'black'}}
-          source={{uri: 'http://hrinformationsystem.com:3001/photos/admin.png'}}
-          resizeMode={'cover'} // cover or contain its upto you view look
-        />
-        <Button title="Detail" onPress={this.detailHandler} />
-      </View>
+      <FlatList
+        style={styles.listContainer}
+        data={this.state.data}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
+        renderItem={({item}) => (
+          <ListItem
+            item={item}
+            onPress={() => this.handleItemPressed(item)}
+            key={item.id}
+          />
+        )}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {},
-  image: {
+  listContainer: {
     width: '100%',
-    height: 200,
+    padding: 5,
   },
 });
 

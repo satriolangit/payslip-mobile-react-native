@@ -1,3 +1,3 @@
 export {addPlace, deletePlace} from './places';
-export {loadDashboardData} from './dashboard';
+export {fetchDasboard} from './dashboard';
 export {login, logout, clearAuthError} from './auth';

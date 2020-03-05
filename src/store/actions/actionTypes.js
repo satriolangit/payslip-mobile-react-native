@@ -8,4 +8,4 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR';
-export const LOAD_DASHBOARD_DATA = 'LOAD_DASHBOARD_DATA';
+export const FETCH_DASHBOARD = 'FETCH_DASHBOARD';

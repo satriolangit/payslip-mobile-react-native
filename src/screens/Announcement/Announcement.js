@@ -1,13 +1,27 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {FlatList, RefreshControl, StyleSheet} from 'react-native';
+import axios from 'axios';
 import {Navigation} from 'react-native-navigation';
+
+import ListItem from '../../components/UI/CardListItem/CardListItem';
+import {API_URL} from '../../../appSetting';
 
 class AnnouncementScreen extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      data: [],
+      isRefreshing: false,
+    };
+
     Navigation.events().bindComponent(this);
   }
+
+  componentDidMount() {
+    this.handleRefresh();
+  }
+
   navigationButtonPressed({buttonId}) {
     if (buttonId === 'sideDrawerToggle') {
       this.toggleDrawer();
@@ -26,17 +40,19 @@ class AnnouncementScreen extends Component {
     });
   };
 
-  detailHandler = () => {
+  handleItemPressed = item => {
+    const title =
+      item.title.length > 30 ? item.title.substr(0, 30) + '...' : item.title;
     Navigation.push(this.props.componentId, {
       component: {
         name: 'eslip.AnnouncementDetailScreen',
         passProps: {
-          announcementId: 0,
+          announcement: item,
         },
         options: {
           topBar: {
             title: {
-              text: 'Detail',
+              text: title,
             },
           },
         },
@@ -44,18 +60,47 @@ class AnnouncementScreen extends Component {
     });
   };
 
+  handleRefresh = async () => {
+    this.setState({isRefreshing: true});
+    try {
+      let url = API_URL + 'announcement';
+      const res = await axios.get(url);
+
+      this.setState({data: res.data.data});
+    } catch (err) {
+      console.log(err);
+    }
+    this.setState({isRefreshing: false});
+  };
+
   render() {
     return (
-      <View>
-        <Text>Announcement Screen</Text>
-        <Button title="Detail" onPress={this.detailHandler} />
-      </View>
+      <FlatList
+        style={styles.listContainer}
+        data={this.state.data}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
+        renderItem={({item}) => (
+          <ListItem
+            item={item}
+            onPress={() => this.handleItemPressed(item)}
+            key={item.id}
+          />
+        )}
+      />
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  listContainer: {
+    width: '100%',
+    padding: 5,
+  },
 });
 
 export default AnnouncementScreen;

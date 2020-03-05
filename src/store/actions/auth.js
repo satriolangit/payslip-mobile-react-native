@@ -5,21 +5,16 @@ import {
   CLEAR_AUTH_ERROR,
 } from './actionTypes';
 import axios from 'axios';
-import {API_URL} from '../../../appSetting';
+import {API_URL, API_JSON_HEADER} from '../../../appSetting';
 import setAuthToken from '../../../setAuthToken';
 import {AsyncStorage} from 'react-native';
 import {goToLogin, startApp} from '../../navigations';
 
 export const login = authData => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
   const url = API_URL + 'auth';
 
   try {
-    const res = await axios.post(url, authData, config);
+    const res = await axios.post(url, authData, API_JSON_HEADER);
 
     if (res.status === 200) {
       const token = res.data.token;
@@ -49,6 +44,7 @@ export const login = authData => async dispatch => {
     }
   } catch (error) {
     console.log(error);
+
     dispatch({
       type: LOGIN_FAIL,
       payload: {
