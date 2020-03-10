@@ -4,10 +4,20 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 import profilePicture from '../../assets/images/no-image.jpg';
 
 class UserPanel extends Component {
+  renderProfilePicture = () => {
+    if (!this.props.photo) {
+      return <Image style={styles.profilePicture} source={profilePicture} />;
+    } else {
+      return (
+        <Image style={styles.profilePicture} source={{uri: this.props.photo}} />
+      );
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.profilePicture} source={profilePicture} />
+        {this.renderProfilePicture()}
         <Text style={styles.title}>{this.props.name}</Text>
         <Text style={styles.title}>{this.props.nik}</Text>
       </View>

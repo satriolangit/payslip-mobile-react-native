@@ -4,7 +4,6 @@ import {
   LOGOUT,
   CLEAR_AUTH_ERROR,
 } from '../actions/actionTypes';
-import {AsyncStorage} from 'react-native';
 
 const initialState = {
   token: '',

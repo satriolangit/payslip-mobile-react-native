@@ -8,16 +8,13 @@ import {
 } from 'react-native';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import {connect} from 'react-redux';
-import Navigation from 'react-native-navigation';
 
-import {logout} from '../../store/actions/index';
+import {logout, cangeTab} from '../../store/actions/index';
 import UserPanel from '../../components/SideBarUserPanel/UserPanel';
 
 class SideDrawer extends Component {
   constructor(props) {
     super(props);
-
-    //Navigation.events().bindComponent(this);
   }
 
   handleSignOut = () => {
@@ -25,12 +22,7 @@ class SideDrawer extends Component {
   };
 
   handleItemPress = tabIndex => {
-    // Navigation.mergeOptions(this.props.componentId, {
-    //   bottomTabs: {
-    //     currentTabIndex: tabIndex,
-    //   },
-    // });
-    //Alert.alert('index', tabIndex);
+    this.props.onTabChanged(tabIndex);
   };
   render() {
     const {photo, name, role, employee_id} = this.props.user;
@@ -124,6 +116,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => {
   return {
     onSignOut: () => dispatch(logout()),
+    onTabChanged: index => dispatch(cangeTab(index)),
   };
 };
 

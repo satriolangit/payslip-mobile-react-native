@@ -8,11 +8,12 @@ import {
   RefreshControl,
   Alert,
 } from 'react-native';
-
+import {PermissionsAndroid} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import axios from 'axios';
 import moment from 'moment';
 import {connect} from 'react-redux';
+
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import RNFetchBlob from 'rn-fetch-blob';
 import {API_URL, PAYSLIP_URL} from '../../../appSetting';
@@ -24,6 +25,7 @@ class PayslipScreen extends Component {
     this.state = {
       payslip: null,
       isRefreshing: false,
+      isStoragePermissionGranted: false,
     };
 
     Navigation.events().bindComponent(this);
@@ -82,7 +84,37 @@ class PayslipScreen extends Component {
   //   }
   // };
 
-  download(filename) {
+  requestPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Download Permission',
+          message:
+            'Eslip membutuhkan akses internal storage untuk menyimpan data',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        this.setState({isStoragePermissionGranted: true});
+        console.log('You write external storage');
+      } else {
+        console.log('write external storage permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  download = async filename => {
+    await this.requestPermission();
+
+    if (!this.state.isStoragePermissionGranted) {
+      return;
+    }
+
     const url = PAYSLIP_URL + filename;
     const {config, fs} = RNFetchBlob;
     let DownloadDir = fs.dirs.DownloadDir;
@@ -104,7 +136,7 @@ class PayslipScreen extends Component {
         //const android = RNFetchBlob.android;
         //android.actionViewIntent(opts.path, 'application/pdf');
       });
-  }
+  };
 
   handleItemPressed = filename => {
     try {

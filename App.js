@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {goToLogin, startApp} from './src/navigations';
 
 class App extends React.Component {

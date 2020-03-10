@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import placesReducer from './reducers/places';
 import dashboardReducer from './reducers/dashboard';
 import authReducer from './reducers/auth';
+import tabReducer from './reducers/tab';
 
 const rootReducer = combineReducers({
   places: placesReducer,
   dashboard: dashboardReducer,
   auth: authReducer,
+  tab: tabReducer,
 });
 
 const initialState = {};

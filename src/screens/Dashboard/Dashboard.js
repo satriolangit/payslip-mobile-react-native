@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {
   View,
-  Alert,
   StyleSheet,
   Dimensions,
   ScrollView,
@@ -29,6 +28,20 @@ class DashboardScreen extends Component {
     Navigation.events().bindComponent(this);
   }
 
+  componentDidMount() {
+    this.props.onPageRefreshed();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.tabIndex !== this.props.tabIndex) {
+      Navigation.mergeOptions(this.props.componentId, {
+        bottomTabs: {
+          currentTabIndex: this.props.tabIndex,
+        },
+      });
+    }
+  }
+
   navigationButtonPressed({buttonId}) {
     if (buttonId === 'sideDrawerToggle') {
       this.toggleDrawer();
@@ -51,26 +64,6 @@ class DashboardScreen extends Component {
     this.setState({refreshing: true});
     this.props.onPageRefreshed();
     this.setState({refreshing: false});
-  };
-
-  handleInfoListPress = info => {
-    const title =
-      info.title.length > 30 ? info.title.substr(0, 30) + '...' : info.title;
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'eslip.InformationDetailScreen',
-        passProps: {
-          information: info,
-        },
-        options: {
-          topBar: {
-            title: {
-              text: title,
-            },
-          },
-        },
-      },
-    });
   };
 
   handlePayslipPress = async () => {
@@ -97,12 +90,34 @@ class DashboardScreen extends Component {
     });
   };
 
+  handleInfoListPress = info => {
+    const title =
+      info.title.length > 30 ? info.title.substr(0, 30) + '...' : info.title;
+
+    const layout = {
+      component: {
+        name: 'eslip.InformationDetailScreen',
+        passProps: {
+          information: info,
+        },
+        options: {
+          topBar: {
+            title: {
+              text: title,
+            },
+          },
+        },
+      },
+    };
+    Navigation.push(this.props.componentId, layout);
+  };
+
   handleAnnouncementListPress = announcement => {
     const title =
       announcement.title.length > 30
         ? announcement.title.substr(0, 30) + '...'
         : announcement.title;
-    Navigation.push(this.props.componentId, {
+    const layout = {
       component: {
         name: 'eslip.AnnouncementDetailScreen',
         passProps: {
@@ -116,12 +131,9 @@ class DashboardScreen extends Component {
           },
         },
       },
-    });
+    };
+    Navigation.push(this.props.componentId, layout);
   };
-
-  componentDidMount() {
-    this.props.onPageRefreshed();
-  }
 
   render() {
     return (
@@ -198,6 +210,7 @@ const mapStateToProps = state => {
     announcementCount: state.dashboard.announcementToday,
     latestInformations: state.dashboard.latestInformation,
     latestAnnouncements: state.dashboard.latestAnnouncement,
+    tabIndex: state.tab.tabIndex,
   };
 };
 

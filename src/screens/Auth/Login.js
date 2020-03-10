@@ -6,8 +6,8 @@ import {
   StyleSheet,
   Button,
   ImageBackground,
-  Alert,
 } from 'react-native';
+import {Toast, Root} from 'native-base';
 
 import BackgroundImage from '../../assets/images/login-bg.jpg';
 import {connect} from 'react-redux';
@@ -19,47 +19,55 @@ class LoginScreen extends Component {
     password: '123456',
   };
 
-  componentDidUpdate(prevProps) {
-    // console.log('componentDidUpdate:', prevProps);
-    // if (this.props.error) {
-    //   //Alert.alert('error', this.props.error);
-    //   //this.props.onClearError();
-    //   console.log('error login');
-    // }
+  componentDidUpdate() {
+    if (this.props.loginResult.error) {
+      Toast.show({
+        text: this.props.loginResult.error,
+        buttonText: 'OK',
+        type: 'danger',
+        duration: 3000,
+        position: 'top',
+      });
+
+      this.props.onClearError();
+    }
   }
 
   loginHandler = () => {
     this.props.onClearError();
     this.props.onLogin(this.state);
-    //console.log(this.props.token);
   };
 
   handleInputChange = () => {};
 
   render() {
     return (
-      <ImageBackground source={BackgroundImage} style={styles.backgroundImage}>
-        <View style={styles.container}>
-          <View style={styles.formContainer}>
-            <Text style={styles.heading4}>Login</Text>
-            <TextInput
-              placeholder="Masukkan NIK"
-              style={styles.input}
-              onChangeText={text => this.setState({nik: text})}
-              keyboardType="number-pad"
-            />
-            <TextInput
-              placeholder="Masukkan Password"
-              style={styles.input}
-              onChangeText={text => this.setState({password: text})}
-              secureTextEntry={true}
-            />
-            <View>
-              <Button title="Login" onPress={this.loginHandler} />
+      <Root>
+        <ImageBackground
+          source={BackgroundImage}
+          style={styles.backgroundImage}>
+          <View style={styles.container}>
+            <View style={styles.formContainer}>
+              <Text style={styles.heading4}>Login</Text>
+              <TextInput
+                placeholder="Masukkan NIK"
+                style={styles.input}
+                onChangeText={text => this.setState({nik: text})}
+                keyboardType="number-pad"
+              />
+              <TextInput
+                placeholder="Masukkan Password"
+                style={styles.input}
+                onChangeText={text => this.setState({password: text})}
+                secureTextEntry={true}
+              />
+              <View>
+                <Button title="Login" onPress={this.loginHandler} />
+              </View>
             </View>
           </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </Root>
     );
   }
 }
@@ -78,9 +86,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 10,
     borderRadius: 5,
-    opacity: 0.8,
     borderWidth: 2,
     borderColor: '#bbb',
+    opacity: 0.8,
   },
   heading4: {
     fontSize: 28,
@@ -92,14 +100,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     margin: 5,
+    borderRadius: 4,
   },
 });
 
 const mapStateToProps = state => {
   return {
-    token: state.auth.token,
-    isAuthenticated: state.auth.isAuthenticated,
-    error: state.auth.error,
+    loginResult: {
+      token: state.auth.token,
+      isAuthenticated: state.auth.isAuthenticated,
+      error: state.auth.error,
+    },
   };
 };
 

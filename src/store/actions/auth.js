@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 import {API_URL, API_JSON_HEADER} from '../../../appSetting';
 import setAuthToken from '../../../setAuthToken';
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {goToLogin, startApp} from '../../navigations';
 
 export const login = authData => async dispatch => {
@@ -48,7 +48,7 @@ export const login = authData => async dispatch => {
     dispatch({
       type: LOGIN_FAIL,
       payload: {
-        message: 'Invalid Credentials',
+        message: 'NIK atau password salah, silahkan coba lagi',
       },
     });
   }

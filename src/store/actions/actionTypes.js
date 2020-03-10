@@ -9,3 +9,4 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_AUTH_ERROR = 'CLEAR_AUTH_ERROR';
 export const FETCH_DASHBOARD = 'FETCH_DASHBOARD';
+export const CHANGE_TAB_INDEX = 'CHANGE_TAB_INDEX';
