@@ -7,7 +7,11 @@ class AnnouncementListWidget extends Component {
   renderItems = () => {
     if (this.props.data.length > 0) {
       return this.props.data.map(item => (
-        <CardItem item={item} onPress={this.props.onPress} key={item.id} />
+        <CardItem
+          item={item}
+          onPress={() => this.props.onPress(item)}
+          key={item.id}
+        />
       ));
     } else {
       return <Text>Tidak ada data</Text>;

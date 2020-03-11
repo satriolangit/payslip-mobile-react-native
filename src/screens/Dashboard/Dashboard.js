@@ -30,6 +30,8 @@ class DashboardScreen extends Component {
 
   componentDidMount() {
     this.props.onPageRefreshed();
+
+    //console.log(this.props.latestAnnouncements);
   }
 
   componentDidUpdate(prevProps) {
@@ -113,6 +115,7 @@ class DashboardScreen extends Component {
   };
 
   handleAnnouncementListPress = announcement => {
+    console.log('announcement prest:', announcement);
     const title =
       announcement.title.length > 30
         ? announcement.title.substr(0, 30) + '...'
