@@ -15,8 +15,8 @@ import {login, clearAuthError} from '../../store/actions/index';
 
 class LoginScreen extends Component {
   state = {
-    nik: '999',
-    password: '123456',
+    nik: '',
+    password: '',
   };
 
   componentDidUpdate() {
