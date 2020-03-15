@@ -1,14 +1,54 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import HTMLView from 'react-native-htmlview';
 import moment from 'moment';
-import ZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
-import HTML from 'react-native-render-html';
+import {Navigation} from 'react-native-navigation';
 
 class InformationDetailScreen extends Component {
   state = {
     htmlContent: '',
   };
+
+  handleImagePress = src => {
+    console.log(Navigation);
+
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'eslip.ZoomImage',
+        passProps: {
+          imgSrc: src,
+        },
+        options: {
+          topBar: {
+            title: {
+              text: 'Image',
+            },
+          },
+        },
+      },
+    });
+  };
+
+  renderNode = (node, index, siblings, parent, defaultRenderer) => {
+    if (node.name === 'img') {
+      console.log(node.attribs.src);
+      const imgSrc = node.attribs.src;
+      return (
+        <TouchableOpacity onLongPress={() => this.handleImagePress(imgSrc)}>
+          <Image source={{uri: imgSrc}} style={styles.image} />
+        </TouchableOpacity>
+      );
+    }
+  };
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -21,19 +61,13 @@ class InformationDetailScreen extends Component {
           </Text>
         </View>
 
-        <ZoomableView
-          maxZoom={3}
-          minZoom={0.5}
-          zoomStep={0.5}
-          initialZoom={1}
-          bindToBorders={true}>
-          <View style={styles.htmlContainer}>
-            <HTMLView
-              value={this.props.information.text}
-              stylesheet={htmlStyles}
-            />
-          </View>
-        </ZoomableView>
+        <View style={styles.htmlContainer}>
+          <HTMLView
+            value={this.props.information.text}
+            stylesheet={htmlStyles}
+            renderNode={this.renderNode}
+          />
+        </View>
       </ScrollView>
     );
   }
@@ -55,6 +89,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   htmlContainer: {},
+  image: {
+    width: '100%',
+    height: Dimensions.get('window').width,
+    resizeMode: 'contain',
+  },
 });
 
 const htmlStyles = StyleSheet.create({

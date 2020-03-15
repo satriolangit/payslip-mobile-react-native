@@ -10,7 +10,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@dudigital/react-native-zoomable-view": "^1.0.15",
     "@react-native-community/async-storage": "github:react-native-community/async-storage",
     "axios": "^0.19.2",
     "moment": "^2.24.0",
@@ -20,11 +19,8 @@
     "react-native-htmlview": "^0.15.0",
     "react-native-image-zoom-viewer": "^2.2.27",
     "react-native-navigation": "^6.0.1",
-    "react-native-nested-scroll-view": "^9.0.0",
     "react-native-pdf": "^6.0.1",
-    "react-native-render-html": "^4.2.0",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "^8.0.2",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",

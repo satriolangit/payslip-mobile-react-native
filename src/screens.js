@@ -13,6 +13,7 @@ import TopBar from './components/UI/TopBar/TopBar';
 import App from '../App';
 import FindPlaceScreen from './screens/FindPlace/FindPlace';
 import SharePlaceScreen from './screens/SharePlace/SharePlace';
+import ZoomImageScreen from './screens/ZoomImage/ZoomImage';
 
 const registerScreens = (Provider, store) => {
   //Register Screens
@@ -85,5 +86,6 @@ const registerScreens = (Provider, store) => {
     store,
   );
 };
+Navigation.registerComponent('eslip.ZoomImage', () => ZoomImageScreen);
 
 export {registerScreens};
