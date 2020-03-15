@@ -7,6 +7,7 @@ import {
   ScrollView,
   RefreshControl,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {PermissionsAndroid} from 'react-native';
 import {Navigation} from 'react-native-navigation';
@@ -262,6 +263,9 @@ class PayslipScreen extends Component {
   }
 }
 
+const width = Dimensions.get('window').width;
+const fontSize = 0.04 * width;
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -289,7 +293,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   cardItemText: {
-    fontSize: 16,
+    fontSize: fontSize,
   },
   cardFooter: {
     padding: 5,

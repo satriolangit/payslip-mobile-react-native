@@ -2,10 +2,17 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import HTMLView from 'react-native-htmlview';
 import moment from 'moment';
+import ZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 
 class AnnouncementDetailScreen extends Component {
   state = {
     htmlContent: '',
+  };
+
+  renderNode = (node, index, siblings, parent, defaultRenderer) => {
+    if (node.name === 'img') {
+      console.log(node.attribs.src);
+    }
   };
   render() {
     return (
@@ -18,12 +25,20 @@ class AnnouncementDetailScreen extends Component {
             )}
           </Text>
         </View>
-        <View style={styles.htmlContainer}>
-          <HTMLView
-            value={this.props.announcement.text}
-            stylesheet={htmlStyles}
-          />
-        </View>
+        <ZoomableView
+          maxZoom={3}
+          minZoom={0.5}
+          zoomStep={0.5}
+          initialZoom={1}
+          bindToBorders={true}>
+          <View style={styles.htmlContainer}>
+            <HTMLView
+              value={this.props.announcement.text}
+              stylesheet={htmlStyles}
+              renderNode={this.renderNode}
+            />
+          </View>
+        </ZoomableView>
       </ScrollView>
     );
   }

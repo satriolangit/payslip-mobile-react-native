@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import HTMLView from 'react-native-htmlview';
 import moment from 'moment';
+import ZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
+import HTML from 'react-native-render-html';
 
 class InformationDetailScreen extends Component {
   state = {
@@ -18,12 +20,20 @@ class InformationDetailScreen extends Component {
             )}
           </Text>
         </View>
-        <View style={styles.htmlContainer}>
-          <HTMLView
-            value={this.props.information.text}
-            stylesheet={htmlStyles}
-          />
-        </View>
+
+        <ZoomableView
+          maxZoom={3}
+          minZoom={0.5}
+          zoomStep={0.5}
+          initialZoom={1}
+          bindToBorders={true}>
+          <View style={styles.htmlContainer}>
+            <HTMLView
+              value={this.props.information.text}
+              stylesheet={htmlStyles}
+            />
+          </View>
+        </ZoomableView>
       </ScrollView>
     );
   }
