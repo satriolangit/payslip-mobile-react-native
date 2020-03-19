@@ -264,7 +264,7 @@ class PayslipScreen extends Component {
 }
 
 const width = Dimensions.get('window').width;
-const fontSize = 0.04 * width;
+const fontSize = 0.03 * width;
 
 const styles = StyleSheet.create({
   container: {

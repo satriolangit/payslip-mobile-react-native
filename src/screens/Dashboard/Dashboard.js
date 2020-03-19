@@ -41,6 +41,8 @@ class DashboardScreen extends Component {
           currentTabIndex: this.props.tabIndex,
         },
       });
+
+      this.toggleDrawer();
     }
   }
 
