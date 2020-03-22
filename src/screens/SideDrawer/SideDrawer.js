@@ -11,6 +11,12 @@ import {connect} from 'react-redux';
 
 import {logout, cangeTab} from '../../store/actions/index';
 import UserPanel from '../../components/SideBarUserPanel/UserPanel';
+import {
+  goToInformationList,
+  goToAnnouncementList,
+  goToPayslipList,
+  goToUserList,
+} from '../../navigations';
 
 class SideDrawer extends Component {
   constructor(props) {
@@ -24,6 +30,7 @@ class SideDrawer extends Component {
   handleItemPress = tabIndex => {
     this.props.onTabChanged(tabIndex);
   };
+
   render() {
     const {photo, name, role, employee_id} = this.props.user;
     return (
@@ -60,6 +67,68 @@ class SideDrawer extends Component {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => this.handleItemPress(2)}>
+          <View style={styles.drawerItem}>
+            <SimpleIcon
+              name="bell"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Pengumuman</Text>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.divider} />
+        <View style={styles.drawerItem}>
+            <SimpleIcon
+              name="settings"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Administration</Text>
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => goToInformationList()}>
+          <View style={styles.drawerItem}>
+            <SimpleIcon
+              name="book-open"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Informasi</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => goToAnnouncementList()}>
+          <View style={styles.drawerItem}>
+            <SimpleIcon
+              name="bell"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Pengumuman</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => goToPayslipList()}>
+          <View style={styles.drawerItem}>
+            <SimpleIcon
+              name="docs"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Payslip</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => gotofi()}>
           <View style={styles.drawerItem}>
             <SimpleIcon
               name="bell"
@@ -110,6 +179,11 @@ const styles = StyleSheet.create({
     height: 150,
     borderBottomWidth: 1,
     borderBottomColor: 'black',
+  },
+  divider: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    width: '100%';
   },
 });
 

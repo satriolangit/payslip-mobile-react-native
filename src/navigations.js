@@ -532,3 +532,67 @@ export const goToInformation = () => {
     },
   );
 };
+
+export const goToInformationList = () => {
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: 'eslip.InformationListScreen',
+        options: {
+          topBar: {
+            visible: true,
+            title: 'Informasi',
+          },
+        },
+      },
+    },
+  });
+};
+
+export const goToAnnouncementList = () => {
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: 'eslip.AnnouncementListScreen',
+        options: {
+          topBar: {
+            visible: true,
+            title: 'Pengumuman',
+          },
+        },
+      },
+    },
+  });
+};
+
+export const goToUserList = () => {
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: 'eslip.UserListScreen',
+        options: {
+          topBar: {
+            visible: true,
+            title: 'User',
+          },
+        },
+      },
+    },
+  });
+};
+
+export const goToPayslipList = () => {
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: 'eslip.PayslipListScreen',
+        options: {
+          topBar: {
+            visible: true,
+            title: 'Payslip',
+          },
+        },
+      },
+    },
+  });
+};

@@ -1,19 +1,28 @@
 import {Navigation} from 'react-native-navigation';
-
-import DashboardScreen from './screens/Dashboard/Dashboard';
-import SideDrawer from './screens/SideDrawer/SideDrawer';
-import LoginScreen from './screens/Auth/Login';
-import AnnouncementScreen from './screens/Announcement/Announcement';
-import AnnouncementDetailScreen from './screens/Announcement/AnnouncementDetail';
-import InformationScreen from './screens/Information/Information';
-import InformationDetailScreen from './screens/Information/InformationDetail';
-import PayslipScreen from './screens/Payslip/Payslip';
-import PayslipDetailScreen from './screens/Payslip/PayslipDetail';
 import TopBar from './components/UI/TopBar/TopBar';
 import App from '../App';
-import FindPlaceScreen from './screens/FindPlace/FindPlace';
-import SharePlaceScreen from './screens/SharePlace/SharePlace';
-import ZoomImageScreen from './screens/ZoomImage/ZoomImage';
+
+import {
+  DashboardScreen,
+  SideDrawer,
+  LoginScreen,
+  InformationScreen,
+  InformationDetailScreen,
+  InformationListScreen,
+  InformationFormScreen,
+  AnnouncementScreen,
+  AnnouncementDetailScreen,
+  AnnouncementListScreen,
+  AnnouncementFormScreen,
+  PayslipListScreen,
+  PayslipScreen,
+  PayslipDetailScreen,
+  UserListScreen,
+  UserFormScreen,
+  ZoomImageScreen,
+  FileListScreen,
+  UploadFileScreen,
+} from './screens/index';
 
 const registerScreens = (Provider, store) => {
   //Register Screens
@@ -73,19 +82,61 @@ const registerScreens = (Provider, store) => {
   );
   Navigation.registerComponent('eslip.TopBar', () => TopBar);
   Navigation.registerComponent('eslip.App', () => App);
+  Navigation.registerComponent('eslip.ZoomImage', () => ZoomImageScreen);
   Navigation.registerComponentWithRedux(
-    'eslip.FindPlaceScreen',
-    () => FindPlaceScreen,
+    'eslip.InformationListScreen',
+    () => InformationListScreen,
     Provider,
     store,
   );
   Navigation.registerComponentWithRedux(
-    'eslip.SharePlaceScreen',
-    () => SharePlaceScreen,
+    'eslip.InformationFormScreen',
+    () => InformationFormScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.AnnouncementListScreen',
+    () => AnnouncementListScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.AnnouncementFormScreen',
+    () => AnnouncementFormScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.PayslipListScreen',
+    () => PayslipListScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.UserListScreen',
+    () => UserListScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.UserFormScreen',
+    () => UserFormScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.FileListScreen',
+    () => FileListScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.UploadFileScreen',
+    () => UploadFileScreen,
     Provider,
     store,
   );
 };
-Navigation.registerComponent('eslip.ZoomImage', () => ZoomImageScreen);
 
 export {registerScreens};
