@@ -4,7 +4,7 @@ import {Container, Content, Item, Input, Icon} from 'native-base';
 
 const SearchBox = props => {
   return (
-    <Container>
+    <View>
       <Item>
         <Icon active name="search" />
         <Input
@@ -12,7 +12,7 @@ const SearchBox = props => {
           onChangeText={text => props.onChangeText(text)}
         />
       </Item>
-    </Container>
+    </View>
   );
 };
 

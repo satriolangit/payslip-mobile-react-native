@@ -534,18 +534,48 @@ export const goToInformation = () => {
 };
 
 export const goToInformationList = () => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'eslip.InformationListScreen',
-        options: {
-          topBar: {
-            visible: true,
-            title: 'Informasi',
+  Promise.all([IonIcon.getImageSource('md-menu', 30)]).then(([menuIcon]) => {
+    const informationListScreen = {
+      name: 'eslip.InformationListScreen',
+      options: {
+        topBar: {
+          visible: true,
+          background: {
+            component: {
+              name: 'eslip.TopBar',
+            },
+          },
+          leftButtons: {
+            id: 'sideDrawerToggle',
+            icon: menuIcon,
           },
         },
       },
-    },
+    };
+
+    const stack = {
+      children: [
+        {
+          component: informationListScreen,
+        },
+      ],
+    };
+
+    Navigation.setRoot({
+      root: {
+        sideMenu: {
+          left: {
+            component: {
+              id: 'mySideDrawer',
+              name: 'eslip.SideDrawer',
+            },
+          },
+          center: {
+            stack: stack,
+          },
+        },
+      },
+    });
   });
 };
 
@@ -590,6 +620,22 @@ export const goToPayslipList = () => {
           topBar: {
             visible: true,
             title: 'Payslip',
+          },
+        },
+      },
+    },
+  });
+};
+
+export const goToFileList = () => {
+  Navigation.setRoot({
+    root: {
+      component: {
+        name: 'eslip.FileListScreen',
+        options: {
+          topBar: {
+            visible: true,
+            title: 'Files',
           },
         },
       },

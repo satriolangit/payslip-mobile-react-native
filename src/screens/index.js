@@ -1,9 +1,9 @@
 import DashboardScreen from './Dashboard/Dashboard';
-import SideDrawer from './SideDrawer/s';
+import SideDrawer from './SideDrawer/SideDrawer';
 import LoginScreen from './Auth/Login';
-import AnnouncementScreen from '..Announcement/Announcement';
-import AnnouncementDetailScreen from '..Announcement/AnnouncementDetail';
-import InformationScreen from '..Information/Information';
+import AnnouncementScreen from './Announcement/Announcement';
+import AnnouncementDetailScreen from './Announcement/AnnouncementDetail';
+import InformationScreen from './Information/Information';
 import InformationDetailScreen from './Information/InformationDetail';
 import PayslipScreen from './Payslip/Payslip';
 import PayslipDetailScreen from './Payslip/PayslipDetail';
@@ -17,6 +17,7 @@ import UserFormScreen from './UserForm/UserForm';
 import UserListScreen from './UserList/UserList';
 import FileListScreen from './FileList/FileList';
 import UploadFileScreen from './UploadFile/UploadFile';
+import UploadPayslipScreen from './UploadPayslip/UploadPayslip';
 
 export {
   DashboardScreen,
@@ -38,4 +39,5 @@ export {
   UserListScreen,
   FileListScreen,
   UploadFileScreen,
+  UploadPayslipScreen,
 };

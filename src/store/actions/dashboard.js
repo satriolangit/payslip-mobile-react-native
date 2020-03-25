@@ -10,8 +10,6 @@ export const fetchDasboard = () => async dispatch => {
     const latestInformation = await getLatestInformation();
     const latestAnnouncement = await getLatestAnnouncement();
 
-    console.log(latestAnnouncement);
-
     dispatch({
       type: FETCH_DASHBOARD,
       payload: {

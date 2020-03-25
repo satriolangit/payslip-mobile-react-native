@@ -5,7 +5,7 @@ import profilePicture from '../../assets/images/no-image.jpg';
 
 class UserPanel extends Component {
   renderProfilePicture = () => {
-    if (!this.props.photo) {
+    if (this.props.photo === '') {
       return <Image style={styles.profilePicture} source={profilePicture} />;
     } else {
       return (

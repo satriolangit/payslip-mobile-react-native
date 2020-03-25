@@ -22,6 +22,7 @@ import {
   ZoomImageScreen,
   FileListScreen,
   UploadFileScreen,
+  UploadPayslipScreen,
 } from './screens/index';
 
 const registerScreens = (Provider, store) => {
@@ -134,6 +135,12 @@ const registerScreens = (Provider, store) => {
   Navigation.registerComponentWithRedux(
     'eslip.UploadFileScreen',
     () => UploadFileScreen,
+    Provider,
+    store,
+  );
+  Navigation.registerComponentWithRedux(
+    'eslip.UploadPayslipScreen',
+    () => UploadPayslipScreen,
     Provider,
     store,
   );

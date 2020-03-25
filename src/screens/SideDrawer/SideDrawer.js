@@ -16,11 +16,16 @@ import {
   goToAnnouncementList,
   goToPayslipList,
   goToUserList,
+  goToFileList,
 } from '../../navigations';
 
 class SideDrawer extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidUpdate() {
+    console.log('user:', this.props.user);
   }
 
   handleSignOut = () => {
@@ -31,8 +36,89 @@ class SideDrawer extends Component {
     this.props.onTabChanged(tabIndex);
   };
 
+  renderAdministration = role => {
+    if (role === 'admin') {
+      return (
+        <View>
+          <View style={styles.divider} />
+          <View style={styles.drawerItem}>
+            <SimpleIcon
+              name="settings"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Administration</Text>
+          </View>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => goToUserList()}>
+            <View style={styles.drawerItem}>
+              <SimpleIcon
+                name="people"
+                size={25}
+                color="#aaa"
+                style={styles.drawerItemIcon}
+              />
+              <Text style={styles.drawerLabel}>User</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => goToInformationList()}>
+            <View style={styles.drawerItem}>
+              <SimpleIcon
+                name="book-open"
+                size={25}
+                color="#aaa"
+                style={styles.drawerItemIcon}
+              />
+              <Text style={styles.drawerLabel}>Informasi</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => goToAnnouncementList()}>
+            <View style={styles.drawerItem}>
+              <SimpleIcon
+                name="bell"
+                size={25}
+                color="#aaa"
+                style={styles.drawerItemIcon}
+              />
+              <Text style={styles.drawerLabel}>Pengumuman</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => goToPayslipList()}>
+            <View style={styles.drawerItem}>
+              <SimpleIcon
+                name="docs"
+                size={25}
+                color="#aaa"
+                style={styles.drawerItemIcon}
+              />
+              <Text style={styles.drawerLabel}>Payslip</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => goToFileList()}>
+            <View style={styles.drawerItem}>
+              <SimpleIcon
+                name="puzzle"
+                size={25}
+                color="#aaa"
+                style={styles.drawerItemIcon}
+              />
+              <Text style={styles.drawerLabel}>Files</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  };
+
   render() {
     const {photo, name, role, employee_id} = this.props.user;
+    console.log('photo:', photo);
     return (
       <View style={[styles.container]}>
         <View style={styles.userContainer}>
@@ -77,68 +163,7 @@ class SideDrawer extends Component {
             <Text style={styles.drawerLabel}>Pengumuman</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.divider} />
-        <View style={styles.drawerItem}>
-            <SimpleIcon
-              name="settings"
-              size={25}
-              color="#aaa"
-              style={styles.drawerItemIcon}
-            />
-            <Text style={styles.drawerLabel}>Administration</Text>
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => goToInformationList()}>
-          <View style={styles.drawerItem}>
-            <SimpleIcon
-              name="book-open"
-              size={25}
-              color="#aaa"
-              style={styles.drawerItemIcon}
-            />
-            <Text style={styles.drawerLabel}>Informasi</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => goToAnnouncementList()}>
-          <View style={styles.drawerItem}>
-            <SimpleIcon
-              name="bell"
-              size={25}
-              color="#aaa"
-              style={styles.drawerItemIcon}
-            />
-            <Text style={styles.drawerLabel}>Pengumuman</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => goToPayslipList()}>
-          <View style={styles.drawerItem}>
-            <SimpleIcon
-              name="docs"
-              size={25}
-              color="#aaa"
-              style={styles.drawerItemIcon}
-            />
-            <Text style={styles.drawerLabel}>Payslip</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => gotofi()}>
-          <View style={styles.drawerItem}>
-            <SimpleIcon
-              name="bell"
-              size={25}
-              color="#aaa"
-              style={styles.drawerItemIcon}
-            />
-            <Text style={styles.drawerLabel}>Pengumuman</Text>
-          </View>
-        </TouchableOpacity>
+        {this.renderAdministration(role)}
         <TouchableOpacity onPress={this.handleSignOut} activeOpacity={0.8}>
           <View style={styles.drawerItem}>
             <SimpleIcon
@@ -181,9 +206,9 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
   },
   divider: {
-    borderBottomColor: 'black',
+    borderBottomColor: '#ccc',
     borderBottomWidth: 1,
-    width: '100%';
+    width: '90%',
   },
 });
 
