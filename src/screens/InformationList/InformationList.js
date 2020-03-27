@@ -29,6 +29,7 @@ class InformationList extends Component {
       loading: false,
       selectedItems: [],
       active: false,
+      isSearch: false,
     };
 
     Navigation.events().bindComponent(this);
@@ -80,7 +81,7 @@ class InformationList extends Component {
   };
 
   handleLoadMore = () => {
-    if (!this.state.loading) {
+    if (!this.state.loading && !this.state.isSearch) {
       this.setState({isRefreshing: true});
       this.setState({page: this.state.page + 1});
       this.fetchData(this.state.page);
@@ -122,13 +123,12 @@ class InformationList extends Component {
         return item;
       });
 
-      this.setState({data: data});
+      this.setState({data: data, isSearch: keywords.length > 0});
 
       console.log(this.state.data);
     } catch (err) {
       console.log(err);
     }
-    console.log(keywords);
   };
 
   handleSelectAll = () => {
@@ -152,9 +152,44 @@ class InformationList extends Component {
     console.log('selectedItems:', this.state.selectedItems);
   };
 
-  handleAdd = () => {};
+  handleAdd = () => {
+    const title = 'Add Informasi';
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'eslip.InformationFormScreen',
+        passProps: {
+          information: null,
+        },
+        options: {
+          topBar: {
+            title: {
+              text: title,
+            },
+          },
+        },
+      },
+    });
+  };
 
-  handleEdit = item => {};
+  handleEdit = item => {
+    const title =
+      item.title.length > 30 ? item.title.substr(0, 30) + '...' : item.title;
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'eslip.InformationFormScreen',
+        passProps: {
+          data: item,
+        },
+        options: {
+          topBar: {
+            title: {
+              text: title,
+            },
+          },
+        },
+      },
+    });
+  };
 
   renderSeparator = () => {
     return (
