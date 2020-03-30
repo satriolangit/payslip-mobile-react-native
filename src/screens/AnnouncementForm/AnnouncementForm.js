@@ -21,7 +21,7 @@ import {
   API_JSON_HEADER,
 } from '../../../appSetting';
 
-import {showInfoToast, showDangerToast} from '../../helper';
+import {showDangerToast} from '../../helper';
 
 class AnnouncementForm extends Component {
   state = {
@@ -54,7 +54,7 @@ class AnnouncementForm extends Component {
       this.setState({isLoading: false});
       Navigation.pop(this.props.componentId);
     } catch (err) {
-      showDangerToast(err);
+      //showDangerToast(err);
       console.log(err);
     }
   };
@@ -134,7 +134,7 @@ class AnnouncementForm extends Component {
         </View>
         <View>
           <TextInput
-            placeholder="Judul Informasi"
+            placeholder="Judul Pengumuman"
             onChangeText={text => this.setState({title: text})}
             style={styles.inputText}
             defaultValue={this.state.title}
