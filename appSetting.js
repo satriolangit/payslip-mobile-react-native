@@ -5,3 +5,8 @@ export const API_JSON_HEADER = {
     'Content-Type': 'application/json',
   },
 };
+export const API_MULTIPART_HEADER = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+};

@@ -580,65 +580,185 @@ export const goToInformationList = () => {
 };
 
 export const goToAnnouncementList = () => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'eslip.AnnouncementListScreen',
-        options: {
-          topBar: {
-            visible: true,
-            title: 'Pengumuman',
+  Promise.all([IonIcon.getImageSource('md-menu', 30)]).then(([menuIcon]) => {
+    const announcementListScreen = {
+      name: 'eslip.AnnouncementListScreen',
+      options: {
+        topBar: {
+          visible: true,
+          background: {
+            component: {
+              name: 'eslip.TopBar',
+            },
+          },
+          leftButtons: {
+            id: 'sideDrawerToggle',
+            icon: menuIcon,
           },
         },
       },
-    },
+    };
+
+    const stack = {
+      children: [
+        {
+          component: announcementListScreen,
+        },
+      ],
+    };
+
+    Navigation.setRoot({
+      root: {
+        sideMenu: {
+          left: {
+            component: {
+              id: 'mySideDrawer',
+              name: 'eslip.SideDrawer',
+            },
+          },
+          center: {
+            stack: stack,
+          },
+        },
+      },
+    });
   });
 };
 
 export const goToUserList = () => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'eslip.UserListScreen',
-        options: {
-          topBar: {
-            visible: true,
-            title: 'User',
+  Promise.all([IonIcon.getImageSource('md-menu', 30)]).then(([menuIcon]) => {
+    const screen = {
+      name: 'eslip.UserListScreen',
+      options: {
+        topBar: {
+          visible: true,
+          background: {
+            component: {
+              name: 'eslip.TopBar',
+            },
+          },
+          leftButtons: {
+            id: 'sideDrawerToggle',
+            icon: menuIcon,
           },
         },
       },
-    },
+    };
+
+    const stack = {
+      children: [
+        {
+          component: screen,
+        },
+      ],
+    };
+
+    Navigation.setRoot({
+      root: {
+        sideMenu: {
+          left: {
+            component: {
+              id: 'mySideDrawer',
+              name: 'eslip.SideDrawer',
+            },
+          },
+          center: {
+            stack: stack,
+          },
+        },
+      },
+    });
   });
 };
 
 export const goToPayslipList = () => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'eslip.PayslipListScreen',
-        options: {
-          topBar: {
-            visible: true,
-            title: 'Payslip',
+  Promise.all([IonIcon.getImageSource('md-menu', 30)]).then(([menuIcon]) => {
+    const screen = {
+      name: 'eslip.PayslipListScreen',
+      options: {
+        topBar: {
+          visible: true,
+          background: {
+            component: {
+              name: 'eslip.TopBar',
+            },
+          },
+          leftButtons: {
+            id: 'sideDrawerToggle',
+            icon: menuIcon,
           },
         },
       },
-    },
+    };
+
+    const stack = {
+      children: [
+        {
+          component: screen,
+        },
+      ],
+    };
+
+    Navigation.setRoot({
+      root: {
+        sideMenu: {
+          left: {
+            component: {
+              id: 'mySideDrawer',
+              name: 'eslip.SideDrawer',
+            },
+          },
+          center: {
+            stack: stack,
+          },
+        },
+      },
+    });
   });
 };
 
 export const goToFileList = () => {
-  Navigation.setRoot({
-    root: {
-      component: {
-        name: 'eslip.FileListScreen',
-        options: {
-          topBar: {
-            visible: true,
-            title: 'Files',
+  Promise.all([IonIcon.getImageSource('md-menu', 30)]).then(([menuIcon]) => {
+    const screen = {
+      name: 'eslip.FileListScreen',
+      options: {
+        topBar: {
+          visible: true,
+          background: {
+            component: {
+              name: 'eslip.TopBar',
+            },
+          },
+          leftButtons: {
+            id: 'sideDrawerToggle',
+            icon: menuIcon,
           },
         },
       },
-    },
+    };
+
+    const stack = {
+      children: [
+        {
+          component: screen,
+        },
+      ],
+    };
+
+    Navigation.setRoot({
+      root: {
+        sideMenu: {
+          left: {
+            component: {
+              id: 'mySideDrawer',
+              name: 'eslip.SideDrawer',
+            },
+          },
+          center: {
+            stack: stack,
+          },
+        },
+      },
+    });
   });
 };

@@ -8,7 +8,7 @@ class App extends React.Component {
     try {
       await AsyncStorage.clear();
       const token = await AsyncStorage.getItem('TOKEN');
-      console.log('token: ', token);
+      //console.log('token: ', token);
       if (token) {
         startApp();
       } else {

@@ -25,7 +25,7 @@ class SideDrawer extends Component {
   }
 
   componentDidUpdate() {
-    console.log('user:', this.props.user);
+    //console.log('user:', this.props.user);
   }
 
   handleSignOut = () => {

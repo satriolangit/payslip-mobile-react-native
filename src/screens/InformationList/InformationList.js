@@ -10,10 +10,20 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {Navigation} from 'react-native-navigation';
-import {Container, Header, Button, Icon, Input, Item, Fab} from 'native-base';
+import {
+  Container,
+  Header,
+  Button,
+  Icon,
+  Input,
+  Item,
+  Fab,
+  Root,
+} from 'native-base';
 
 import {API_URL, API_JSON_HEADER} from '../../../appSetting';
 import ListItem from '../../components/InformationListItem/InformationListItem';
+import {showDangerToast} from '../../helper';
 
 // eslint-disable-next-line react-native/no-inline-styles
 
@@ -70,6 +80,7 @@ class InformationList extends Component {
 
       this.setState({data: data});
     } catch (err) {
+      showDangerToast(err);
       console.log(err);
     }
   };
@@ -109,7 +120,22 @@ class InformationList extends Component {
   };
 
   handleItemPress = item => {
-    console.log('itemPress:', item);
+    const title = 'Edit Informasi';
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'eslip.InformationFormScreen',
+        passProps: {
+          data: item,
+        },
+        options: {
+          topBar: {
+            title: {
+              text: title,
+            },
+          },
+        },
+      },
+    });
   };
 
   handleSearch = async keywords => {
@@ -148,7 +174,21 @@ class InformationList extends Component {
     });
   };
 
-  handleDelete = () => {
+  handleDelete = async () => {
+    const {selectedItems} = this.state;
+
+    if (selectedItems.length > 0) {
+      try {
+        const url = API_URL + '/information/multidelete';
+        await axios.post(url, {ids: selectedItems}, API_JSON_HEADER);
+
+        this.fetchData();
+      } catch (err) {
+        showDangerToast(err);
+        console.log(err);
+      }
+    }
+
     console.log('selectedItems:', this.state.selectedItems);
   };
 
@@ -158,7 +198,7 @@ class InformationList extends Component {
       component: {
         name: 'eslip.InformationFormScreen',
         passProps: {
-          information: null,
+          data: null,
         },
         options: {
           topBar: {
@@ -248,48 +288,50 @@ class InformationList extends Component {
     }
 
     return (
-      <Container>
-        <Header searchBar rounded style={styles.header}>
-          <Item>
-            <Icon name="ios-search" />
-            <Input
-              placeholder="Search"
-              onChangeText={text => this.handleSearch(text)}
+      <Root>
+        <Container>
+          <Header searchBar rounded style={styles.header}>
+            <Item>
+              <Icon name="ios-search" />
+              <Input
+                placeholder="Search"
+                onChangeText={text => this.handleSearch(text)}
+              />
+            </Item>
+            <Button transparent>
+              <Text>Search</Text>
+            </Button>
+          </Header>
+          <View style={{flex: 1}}>
+            <FlatList
+              data={this.state.data}
+              extraData={this.state}
+              refreshControl={
+                <RefreshControl
+                  onRefresh={this.handleFetch}
+                  refreshing={this.state.isRefreshing}
+                />
+              }
+              renderItem={({item}) => (
+                <ListItem
+                  data={item}
+                  onSelected={() => this.handleSelectItem(item)}
+                  onLongPress={() => this.handleSelectItem(item)}
+                  onPress={() => this.handleItemPress(item)}
+                  style={item.selectedClass}
+                  selected={item.isSelected}
+                />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              ItemSeparatorComponent={this.renderSeparator}
+              ListFooterComponent={this.renderFooter}
+              onEndReachedThreshold={0.4}
+              onEndReached={this.handleLoadMore}
             />
-          </Item>
-          <Button transparent>
-            <Text>Search</Text>
-          </Button>
-        </Header>
-        <View style={{flex: 1}}>
-          <FlatList
-            data={this.state.data}
-            extraData={this.state}
-            refreshControl={
-              <RefreshControl
-                onRefresh={this.handleFetch}
-                refreshing={this.state.isRefreshing}
-              />
-            }
-            renderItem={({item}) => (
-              <ListItem
-                data={item}
-                onSelected={() => this.handleSelectItem(item)}
-                onLongPress={() => this.handleSelectItem(item)}
-                onPress={() => this.handleItemPress(item)}
-                style={item.selectedClass}
-                selected={item.isSelected}
-              />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            ItemSeparatorComponent={this.renderSeparator}
-            ListFooterComponent={this.renderFooter}
-            onEndReachedThreshold={0.4}
-            onEndReached={this.handleLoadMore}
-          />
-          {this.renderFab()}
-        </View>
-      </Container>
+            {this.renderFab()}
+          </View>
+        </Container>
+      </Root>
     );
   }
 }
