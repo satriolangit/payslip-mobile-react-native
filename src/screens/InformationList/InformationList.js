@@ -179,12 +179,12 @@ class InformationList extends Component {
 
     if (selectedItems.length > 0) {
       try {
-        const url = API_URL + '/information/multidelete';
+        const url = API_URL + 'information/multidelete';
         await axios.post(url, {ids: selectedItems}, API_JSON_HEADER);
 
         this.fetchData();
       } catch (err) {
-        showDangerToast(err);
+        //showDangerToast(err);
         console.log(err);
       }
     }

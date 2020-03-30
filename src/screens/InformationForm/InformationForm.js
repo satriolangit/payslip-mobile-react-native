@@ -12,7 +12,6 @@ import {
 import {RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 import ImagePicker from 'react-native-image-picker';
 import axios from 'axios';
-import {Spinner} from 'native-base';
 import Loader from 'react-native-loading-spinner-overlay';
 import {Navigation} from 'react-native-navigation';
 
@@ -37,12 +36,6 @@ class InformationForm extends Component {
       this.setState({title: title, text: text});
     }
   }
-
-  showLoader = () => (
-    <View style={styles.loader}>
-      <Spinner />
-    </View>
-  );
 
   handleSave = async () => {
     // Get the data here and call the interface to save the data
