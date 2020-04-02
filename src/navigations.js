@@ -2,7 +2,9 @@ import {Navigation} from 'react-native-navigation';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-export const startApp = () => {
+export const startApp = (tabIndex = 0) => {
+  console.log('tabIndex:', tabIndex);
+
   Promise.all([
     IonIcon.getImageSource('md-menu', 30),
     SimpleIcon.getImageSource('speedometer', 30),
@@ -104,6 +106,181 @@ export const startApp = () => {
 
       const mainTabs = {
         id: 'mainTabsId',
+        children: [
+          {
+            stack: {
+              children: [
+                {
+                  component: dashboardTab,
+                },
+              ],
+            },
+          },
+          {
+            stack: {
+              children: [
+                {
+                  component: informationTab,
+                },
+              ],
+            },
+          },
+          {
+            stack: {
+              children: [
+                {
+                  component: announcementTab,
+                },
+              ],
+            },
+          },
+          {
+            stack: {
+              children: [
+                {
+                  component: payslipTab,
+                },
+              ],
+            },
+          },
+        ],
+        options: {
+          topBar: {
+            visible: true,
+            alignment: 'center',
+          },
+        },
+      };
+
+      Navigation.setRoot({
+        root: {
+          sideMenu: {
+            left: {
+              component: {
+                id: 'mySideDrawer',
+                name: 'eslip.SideDrawer',
+              },
+            },
+            center: {
+              bottomTabs: mainTabs,
+            },
+          },
+        },
+      });
+    },
+  );
+};
+
+export const goToAnnouncement = () => {
+  Promise.all([
+    IonIcon.getImageSource('md-menu', 30),
+    SimpleIcon.getImageSource('speedometer', 30),
+    SimpleIcon.getImageSource('book-open', 30),
+    SimpleIcon.getImageSource('bell', 30),
+    SimpleIcon.getImageSource('docs', 30),
+    SimpleIcon.getImageSource('grid', 30),
+  ]).then(
+    ([
+      menuIcon,
+      dashboardIcon,
+      infoIcon,
+      announcementIcon,
+      payslipIcon,
+      gridIcon,
+    ]) => {
+      const dashboardTab = {
+        name: 'eslip.DashboardScreen',
+        options: {
+          bottomTab: {
+            text: 'Dashboard',
+            fontSize: 12,
+            icon: dashboardIcon,
+            background: {
+              color: '#ccc',
+              translucent: false,
+            },
+          },
+          topBar: {
+            visible: true,
+            background: {
+              component: {
+                name: 'eslip.TopBar',
+              },
+            },
+            leftButtons: {
+              id: 'sideDrawerToggle',
+              icon: gridIcon,
+            },
+          },
+        },
+      };
+
+      const informationTab = {
+        name: 'eslip.InformationScreen',
+        options: {
+          bottomTab: {
+            text: 'Informasi',
+            fontSize: 12,
+            icon: infoIcon,
+          },
+          topBar: {
+            visible: true,
+            title: {
+              text: 'Informasi',
+            },
+            leftButtons: {
+              id: 'sideDrawerToggle',
+              icon: menuIcon,
+            },
+          },
+        },
+      };
+
+      const announcementTab = {
+        name: 'eslip.AnnouncementScreen',
+        options: {
+          bottomTab: {
+            fontSize: 12,
+            text: 'Pengumuman',
+            icon: announcementIcon,
+          },
+          topBar: {
+            visible: true,
+            title: {
+              text: 'Pengumuman',
+            },
+            leftButtons: {
+              id: 'sideDrawerToggle',
+              icon: menuIcon,
+            },
+          },
+        },
+      };
+
+      const payslipTab = {
+        name: 'eslip.PayslipScreen',
+        options: {
+          bottomTab: {
+            fontSize: 12,
+            text: 'Payslip',
+            icon: payslipIcon,
+          },
+          topBar: {
+            visible: true,
+            title: {
+              text: 'Pasylip',
+            },
+            leftButtons: {
+              id: 'sideDrawerToggle',
+              icon: menuIcon,
+            },
+          },
+        },
+      };
+
+      const mainTabs = {
+        id: 'mainTabsId',
+        currentTabIndex: 2,
         children: [
           {
             stack: {
@@ -278,6 +455,7 @@ export const goToPayslip = () => {
 
       const mainTabs = {
         id: 'mainTabsId',
+        currentTabIndex: 3,
         children: [
           {
             stack: {
@@ -468,6 +646,7 @@ export const goToInformation = () => {
 
       const mainTabs = {
         id: 'mainTabsId',
+        currentTabIndex: 1,
         children: [
           {
             stack: {

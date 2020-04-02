@@ -34,7 +34,8 @@ class SideDrawer extends Component {
   };
 
   handleItemPress = tabIndex => {
-    startApp();
+    startApp(tabIndex);
+
     this.props.onTabChanged(tabIndex);
   };
 

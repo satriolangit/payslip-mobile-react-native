@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Radio, Thumbnail} from 'native-base';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import noImage from '../../assets/images/no-image.jpg';
 
@@ -27,7 +27,7 @@ const UserListItem = props => {
           <Text style={styles.title}>{name}</Text>
         </View>
         <View style={styles.subtitleContainer}>
-          <Icon name="clock" size={10} color="#aaa" />
+          <Icon name="md-grid" size={10} color="#aaa" />
           <Text style={styles.textMuted}>{employee_id + ' - ' + role}</Text>
         </View>
       </View>
