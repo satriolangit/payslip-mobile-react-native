@@ -22,7 +22,7 @@ import {
 } from 'native-base';
 
 import {API_URL, API_JSON_HEADER} from '../../../appSetting';
-import ListItem from '../../components/InformationListItem/InformationListItem';
+import ListItem from '../../components/AnnouncementListItem/AnnouncementListItem';
 import {showDangerToast} from '../../helper';
 
 class AnnouncementList extends Component {
@@ -240,7 +240,7 @@ class AnnouncementList extends Component {
       style={{backgroundColor: '#5067FF'}}
       position="bottomRight"
       onPress={() => this.setState({active: !this.state.active})}>
-      <Icon name="md-more" />
+      <Icon name="md-apps" />
       <Button style={{backgroundColor: '#34A34F'}} onPress={this.handleAdd}>
         <Icon name="md-add" />
       </Button>

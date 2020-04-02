@@ -37,7 +37,8 @@ const reducer = (state = initialState, action) => {
     case LOGOUT:
       return {
         ...state,
-        initialState,
+        token: '',
+        isAuthenticated: false,
       };
     default:
       return state;

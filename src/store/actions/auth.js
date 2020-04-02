@@ -12,9 +12,12 @@ import {goToLogin, startApp} from '../../navigations';
 
 export const login = authData => async dispatch => {
   const url = API_URL + 'auth';
+  console.log(url, authData);
 
   try {
     const res = await axios.post(url, authData, API_JSON_HEADER);
+
+    console.log(res.data);
 
     if (res.status === 200) {
       const token = res.data.token;
@@ -24,9 +27,6 @@ export const login = authData => async dispatch => {
       //set async storage
       await AsyncStorage.setItem('TOKEN', token);
 
-      //go home
-      startApp();
-
       //load user session
       const user = await getUser();
 
@@ -34,6 +34,9 @@ export const login = authData => async dispatch => {
         type: LOGIN_SUCCESS,
         payload: {token, user},
       });
+
+      //go home
+      startApp();
     } else {
       dispatch({
         type: LOGIN_FAIL,
@@ -57,7 +60,9 @@ export const login = authData => async dispatch => {
 export const logout = () => async dispatch => {
   setAuthToken();
   await AsyncStorage.removeItem('TOKEN');
+
   goToLogin();
+
   dispatch({
     type: LOGOUT,
   });

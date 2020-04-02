@@ -151,7 +151,7 @@ class InformationList extends Component {
 
       this.setState({data: data, isSearch: keywords.length > 0});
 
-      console.log(this.state.data);
+      //console.log(this.state.data);
     } catch (err) {
       console.log(err);
     }
@@ -189,7 +189,7 @@ class InformationList extends Component {
       }
     }
 
-    console.log('selectedItems:', this.state.selectedItems);
+    //('selectedItems:', this.state.selectedItems);
   };
 
   handleAdd = () => {
@@ -259,7 +259,7 @@ class InformationList extends Component {
       style={{backgroundColor: '#5067FF'}}
       position="bottomRight"
       onPress={() => this.setState({active: !this.state.active})}>
-      <Icon name="md-more" />
+      <Icon name="md-apps" />
       <Button style={{backgroundColor: '#34A34F'}} onPress={this.handleAdd}>
         <Icon name="md-add" />
       </Button>

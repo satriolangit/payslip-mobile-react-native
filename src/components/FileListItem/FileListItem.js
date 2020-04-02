@@ -1,28 +1,24 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Radio} from 'native-base';
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
-const PayslipListItem = props => {
+const FileListItem = props => {
+  const {filename, created_time} = props.data;
   return (
     <TouchableOpacity
       style={[styles.container, props.style]}
-      onLongPress={() => props.onLongPress(props.data.id)}
-      onPress={() => props.onPress(props.data.filename)}>
+      onLongPress={props.onLongPress}
+      onPress={props.onPress}>
       <View style={styles.itemContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{props.data.filename}</Text>
+          <Text style={styles.title}>{filename}</Text>
         </View>
         <View style={styles.subtitleContainer}>
+          <Icon name="clock" size={10} color="#aaa" />
           <Text style={styles.textMuted}>
-            Periode :{' '}
-            {moment()
-              .month(props.data.month)
-              .format('MMMM')}{' '}
-            {props.data.year}
-          </Text>
-          <Text style={styles.textMuted}>
-            Downloads :{props.data.download_count}
+            Type :{moment(created_time).format('MMMM DD YYYY, HH:mm')}
           </Text>
         </View>
       </View>
@@ -58,6 +54,7 @@ const styles = StyleSheet.create({
   },
   subtitleContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     flexShrink: 1,
@@ -77,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PayslipListItem;
+export default FileListItem;

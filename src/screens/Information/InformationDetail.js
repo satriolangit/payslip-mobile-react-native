@@ -18,7 +18,7 @@ class InformationDetailScreen extends Component {
   };
 
   handleImagePress = src => {
-    console.log(Navigation);
+    //console.log(Navigation);
 
     Navigation.push(this.props.componentId, {
       component: {
@@ -39,7 +39,7 @@ class InformationDetailScreen extends Component {
 
   renderNode = (node, index, siblings, parent, defaultRenderer) => {
     if (node.name === 'img') {
-      console.log(node.attribs.src);
+      //console.log(node.attribs.src);
       const imgSrc = node.attribs.src;
       return (
         <TouchableOpacity onLongPress={() => this.handleImagePress(imgSrc)}>

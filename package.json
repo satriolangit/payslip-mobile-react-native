@@ -16,6 +16,7 @@
     "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-document-picker": "^3.3.2",
     "react-native-htmlview": "^0.15.0",
     "react-native-image-picker": "^2.3.1",
     "react-native-image-zoom-viewer": "^2.2.27",

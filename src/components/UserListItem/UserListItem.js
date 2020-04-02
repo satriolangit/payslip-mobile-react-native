@@ -1,29 +1,34 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {Radio} from 'native-base';
-import moment from 'moment';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Radio, Thumbnail} from 'native-base';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
-const PayslipListItem = props => {
+import noImage from '../../assets/images/no-image.jpg';
+
+const UserListItem = props => {
+  const {name, role, photo, employee_id} = props.data;
+  let avatar = null;
+  if (photo === '') {
+    avatar = noImage;
+  } else {
+    avatar = {uri: photo};
+  }
+
   return (
     <TouchableOpacity
       style={[styles.container, props.style]}
-      onLongPress={() => props.onLongPress(props.data.id)}
-      onPress={() => props.onPress(props.data.filename)}>
+      onLongPress={props.onLongPress}
+      onPress={props.onPress}>
+      <View style={styles.thumbnailContainer}>
+        <Thumbnail small source={avatar} />
+      </View>
       <View style={styles.itemContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{props.data.filename}</Text>
+          <Text style={styles.title}>{name}</Text>
         </View>
         <View style={styles.subtitleContainer}>
-          <Text style={styles.textMuted}>
-            Periode :{' '}
-            {moment()
-              .month(props.data.month)
-              .format('MMMM')}{' '}
-            {props.data.year}
-          </Text>
-          <Text style={styles.textMuted}>
-            Downloads :{props.data.download_count}
-          </Text>
+          <Icon name="clock" size={10} color="#aaa" />
+          <Text style={styles.textMuted}>{employee_id + ' - ' + role}</Text>
         </View>
       </View>
       <View style={styles.radioContainer}>
@@ -58,6 +63,7 @@ const styles = StyleSheet.create({
   },
   subtitleContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     flexShrink: 1,
@@ -71,10 +77,13 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   textMuted: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#aaa',
     marginLeft: 5,
   },
+  thumbnailContainer: {
+    marginRight: 5,
+  },
 });
 
-export default PayslipListItem;
+export default UserListItem;

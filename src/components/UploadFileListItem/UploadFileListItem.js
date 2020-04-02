@@ -1,35 +1,24 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {Radio} from 'native-base';
-import moment from 'moment';
+import {View, Text, StyleSheet} from 'react-native';
+import {Icon} from 'native-base';
 
 const PayslipListItem = props => {
+  const {filename, type, size, onRemoveItem, style} = props;
   return (
-    <TouchableOpacity
-      style={[styles.container, props.style]}
-      onLongPress={() => props.onLongPress(props.data.id)}
-      onPress={() => props.onPress(props.data.filename)}>
+    <View style={[styles.container, style]}>
       <View style={styles.itemContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{props.data.filename}</Text>
+          <Text style={styles.title}>{filename}</Text>
         </View>
         <View style={styles.subtitleContainer}>
-          <Text style={styles.textMuted}>
-            Periode :{' '}
-            {moment()
-              .month(props.data.month)
-              .format('MMMM')}{' '}
-            {props.data.year}
-          </Text>
-          <Text style={styles.textMuted}>
-            Downloads :{props.data.download_count}
-          </Text>
+          <Text style={styles.textMuted}>Type :{type}</Text>
+          <Text style={styles.textMuted}>Size :{size}</Text>
         </View>
       </View>
       <View style={styles.radioContainer}>
-        <Radio onPress={props.onSelected} selected={props.selected} />
+        <Icon name="md-trash" size={30} onPress={onRemoveItem} />
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

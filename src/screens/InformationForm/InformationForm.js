@@ -54,7 +54,7 @@ class InformationForm extends Component {
       this.setState({isLoading: false});
       Navigation.pop(this.props.componentId);
     } catch (err) {
-      showDangerToast(err);
+      //showDangerToast(err);
       console.log(err);
     }
   };

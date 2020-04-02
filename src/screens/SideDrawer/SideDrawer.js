@@ -17,6 +17,7 @@ import {
   goToPayslipList,
   goToUserList,
   goToFileList,
+  startApp,
 } from '../../navigations';
 
 class SideDrawer extends Component {
@@ -25,7 +26,7 @@ class SideDrawer extends Component {
   }
 
   componentDidUpdate() {
-    //console.log('user:', this.props.user);
+    console.log('user:', this.props.user);
   }
 
   handleSignOut = () => {
@@ -33,6 +34,7 @@ class SideDrawer extends Component {
   };
 
   handleItemPress = tabIndex => {
+    startApp();
     this.props.onTabChanged(tabIndex);
   };
 
@@ -118,7 +120,7 @@ class SideDrawer extends Component {
 
   render() {
     const {photo, name, role, employee_id} = this.props.user;
-    console.log('photo:', photo);
+    //console.log('photo:', photo);
     return (
       <View style={[styles.container]}>
         <View style={styles.userContainer}>
@@ -163,7 +165,7 @@ class SideDrawer extends Component {
             <Text style={styles.drawerLabel}>Pengumuman</Text>
           </View>
         </TouchableOpacity>
-        {this.renderAdministration(role)}
+        {this.renderAdministration(this.props.user.role)}
         <TouchableOpacity onPress={this.handleSignOut} activeOpacity={0.8}>
           <View style={styles.drawerItem}>
             <SimpleIcon

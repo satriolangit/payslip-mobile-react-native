@@ -12,6 +12,7 @@ import {Toast, Root} from 'native-base';
 import BackgroundImage from '../../assets/images/login-bg.jpg';
 import {connect} from 'react-redux';
 import {login, clearAuthError} from '../../store/actions/index';
+import {startApp} from '../../navigations';
 
 class LoginScreen extends Component {
   state = {
@@ -31,6 +32,15 @@ class LoginScreen extends Component {
 
       this.props.onClearError();
     }
+
+    // console.log(this.props.loginResult);
+
+    // if (
+    //   this.props.loginResult.isAuthenticated &&
+    //   this.props.loginResult.token !== ''
+    // ) {
+    //   startApp();
+    // }
   }
 
   loginHandler = () => {
