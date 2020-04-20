@@ -1,11 +1,12 @@
-export const API_URL = 'http://156.67.221.93:3002/api/';
-export const PAYSLIP_URL = 'http://156.67.221.93:3002/payslip/';
-export const FILE_URL = 'http://156.67.221.93:3002/files/';
-export const LIST_PAGE_SIZE = 20;
+// export const API_URL = 'http://156.67.221.93:3002/api/';
+// export const PAYSLIP_URL = 'http://156.67.221.93:3002/payslip/';
+// export const FILE_URL = 'http://156.67.221.93:3002/files/';
+// export const LIST_PAGE_SIZE = 20;
 
-// export const API_URL = 'http://58a2559f.ngrok.io/api/';
-// export const PAYSLIP_URL = 'http://58a2559f.ngrok.io/payslip/';
-// export const FILE_URL = 'http://58a2559f.ngrok.io/files/';
+export const API_URL = 'http://192.168.0.21:3001/api/';
+export const PAYSLIP_URL = 'http://192.168.0.21:3001/payslip/';
+export const FILE_URL = 'http://192.168.0.21:3001/files/';
+export const LIST_PAGE_SIZE = 20;
 
 export const API_JSON_HEADER = {
   headers: {

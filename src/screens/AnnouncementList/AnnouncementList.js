@@ -44,7 +44,7 @@ class AnnouncementList extends Component {
   }
 
   componentDidMount() {
-    this.handleFetch();
+    this.handleRefresh();
   }
 
   navigationButtonPressed({buttonId}) {
@@ -142,7 +142,7 @@ class AnnouncementList extends Component {
   };
 
   handleSelectAll = () => {
-    this.state.isSelectAll = !this.state.isSelectAll;
+    this.setState({isSelectAll: !this.state.isSelectAll});
 
     const selectAll = this.state.data.map(item => {
       item.isSelected = this.state.isSelectAll;

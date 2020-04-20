@@ -24,6 +24,7 @@ import {
 
 import {API_URL, API_JSON_HEADER, LIST_PAGE_SIZE} from '../../../appSetting';
 import ListItem from '../../components/UserListItem/UserListItem';
+import {showInfoToast} from '../../helper';
 
 class UserList extends Component {
   constructor(props) {
@@ -225,6 +226,27 @@ class UserList extends Component {
     });
   };
 
+  handleChangePassword = () => {
+    if (this.state.selectedItems.length > 0) {
+      const userId = this.state.selectedItems[0];
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'eslip.ChangePasswordScreen',
+          passProps: {
+            data: userId,
+          },
+          options: {
+            topBar: {
+              title: {
+                text: 'Change Password',
+              },
+            },
+          },
+        },
+      });
+    }
+  };
+
   renderSeparator = () => {
     return (
       <View
@@ -280,6 +302,11 @@ class UserList extends Component {
       <Icon name="md-apps" />
       <Button style={{backgroundColor: '#34A34F'}} onPress={this.handleAdd}>
         <Icon name="md-add" />
+      </Button>
+      <Button
+        style={{backgroundColor: '#000000'}}
+        onPress={this.handleChangePassword}>
+        <Icon name="md-lock" />
       </Button>
       <Button
         style={{backgroundColor: '#3B5998'}}

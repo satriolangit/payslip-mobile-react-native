@@ -20,11 +20,11 @@ import {
   Item,
   Fab,
   Root,
-  Toast,
 } from 'native-base';
 
 import {API_URL, API_JSON_HEADER, LIST_PAGE_SIZE} from '../../../appSetting';
 import ListItem from '../../components/InformationListItem/InformationListItem';
+import {showDangerToast, showInfoToast} from '../../helper';
 
 // eslint-disable-next-line react-native/no-inline-styles
 
@@ -48,7 +48,7 @@ class InformationList extends Component {
   }
 
   componentDidMount() {
-    this.handleFetch();
+    this.handleRefresh();
   }
 
   navigationButtonPressed({buttonId}) {
@@ -168,22 +168,20 @@ class InformationList extends Component {
   };
 
   handleSelectAll = () => {
-    this.showToast('error', 'danger');
+    this.setState({isSelectAll: !this.state.isSelectAll});
 
-    // this.state.isSelectAll = !this.state.isSelectAll;
+    const selectAll = this.state.data.map(item => {
+      item.isSelected = this.state.isSelectAll;
+      item.selectedClass = item.isSelected ? styles.selected : {};
+      return item;
+    });
 
-    // const selectAll = this.state.data.map(item => {
-    //   item.isSelected = this.state.isSelectAll;
-    //   item.selectedClass = item.isSelected ? styles.selected : {};
-    //   return item;
-    // });
-
-    // this.setState({
-    //   data: selectAll,
-    //   selectedItems: this.state.isSelectAll
-    //     ? selectAll.map(item => item.id)
-    //     : [],
-    // });
+    this.setState({
+      data: selectAll,
+      selectedItems: this.state.isSelectAll
+        ? selectAll.map(item => item.id)
+        : [],
+    });
   };
 
   handleDelete = async () => {
@@ -196,12 +194,14 @@ class InformationList extends Component {
 
         this.fetchData();
       } catch (err) {
-        //showDangerToast(err);
+        showDangerToast(
+          'Gagal menghapus item, silahkan hubungi administrator.',
+        );
         console.log(err);
       }
+    } else {
+      showInfoToast('Silahkan pilih item yg akan dihapus.');
     }
-
-    //('selectedItems:', this.state.selectedItems);
   };
 
   handleAdd = () => {
@@ -255,14 +255,6 @@ class InformationList extends Component {
     );
   };
 
-  // renderFooter = () => {
-  //   //it will show indicator at the bottom of the list when data is loading otherwise it returns null
-  //   if (!this.state.loading) {
-  //     return null;
-  //   }
-  //   return <ActivityIndicator style={{color: '#000'}} />;
-  // };
-
   renderFooter = () => {
     if (
       !this.state.data ||
@@ -293,16 +285,6 @@ class InformationList extends Component {
         </TouchableOpacity>
       </View>
     );
-  };
-
-  showToast = (text, type) => {
-    Toast.show({
-      text: text,
-      buttonText: 'OK',
-      type: type,
-      duration: 3000,
-      position: 'top',
-    });
   };
 
   renderFab = () => (

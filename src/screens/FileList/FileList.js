@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   PermissionsAndroid,
   Alert,
+  Clipboard,
 } from 'react-native';
 import axios from 'axios';
 import {Navigation} from 'react-native-navigation';
@@ -25,9 +26,14 @@ import {
 } from 'native-base';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import {API_URL, API_JSON_HEADER, FILE_URL} from '../../../appSetting';
+import {
+  API_URL,
+  API_JSON_HEADER,
+  FILE_URL,
+  LIST_PAGE_SIZE,
+} from '../../../appSetting';
 import ListItem from '../../components/FileListItem/FileListItem';
-import {showDangerToast} from '../../helper';
+import {showDangerToast, showInfoToast} from '../../helper';
 
 class FileList extends Component {
   constructor(props) {
@@ -42,6 +48,8 @@ class FileList extends Component {
       selectedItems: [],
       active: false,
       isSearch: false,
+      totalData: 0,
+      copiedPath: null,
     };
 
     Navigation.events().bindComponent(this);
@@ -71,7 +79,8 @@ class FileList extends Component {
 
   fetchData = async (page = 1) => {
     try {
-      let url = API_URL + 'upload/page/' + page;
+      let url = `${API_URL}upload/page/${page}/${LIST_PAGE_SIZE}`;
+
       const res = await axios.get(url);
 
       const data = res.data.data.map(item => {
@@ -79,6 +88,9 @@ class FileList extends Component {
         item.selectedClass = styles.list;
         return item;
       });
+
+      console.log(data.length, 'totalData:', res.data.totalData);
+      this.setState({totalData: res.data.totalData});
 
       return data;
     } catch (err) {
@@ -149,8 +161,7 @@ class FileList extends Component {
   };
 
   handleSelectAll = () => {
-    this.state.isSelectAll = !this.state.isSelectAll;
-
+    this.setState({isSelectAll: !this.state.isSelectAll});
     const selectAll = this.state.data.map(item => {
       item.isSelected = this.state.isSelectAll;
       item.selectedClass = item.isSelected ? styles.selected : {};
@@ -186,6 +197,16 @@ class FileList extends Component {
     console.log('selectedItems:', selectedItems);
   };
 
+  handleCopy = async path => {
+    try {
+      await Clipboard.setString(path);
+      showInfoToast(path + ' copied');
+      this.setState({copiedPath: path});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   handleUpload = () => {
     Navigation.push(this.props.componentId, {
       component: {
@@ -202,6 +223,19 @@ class FileList extends Component {
         },
       },
     });
+  };
+
+  handleDownload = filename => {
+    try {
+      this.download(filename);
+    } catch (error) {
+      Alert.alert(
+        'Gagal',
+        'Download file gagal, silahkan cek permission di hp anda',
+      );
+
+      console.log(error);
+    }
   };
 
   requestPermission = async () => {
@@ -258,19 +292,6 @@ class FileList extends Component {
       });
   };
 
-  handleDownload = filename => {
-    try {
-      this.download(filename);
-    } catch (error) {
-      Alert.alert(
-        'Gagal',
-        'Download payslip gagal, silahkan cek permission di hp anda',
-      );
-
-      console.log(error);
-    }
-  };
-
   renderSeparator = () => {
     return (
       <View
@@ -284,7 +305,11 @@ class FileList extends Component {
   };
 
   renderFooter = () => {
-    if (!this.state.data || this.state.data.length <= 30) {
+    if (
+      !this.state.data ||
+      this.state.isSearch ||
+      this.state.totalData <= LIST_PAGE_SIZE
+    ) {
       return null;
     }
 
@@ -376,7 +401,7 @@ class FileList extends Component {
                 <ListItem
                   data={item}
                   onSelected={() => this.handleSelectItem(item)}
-                  onLongPress={() => this.handleSelectItem(item)}
+                  onLongPress={() => this.handleCopy(item.path)}
                   onPress={() => this.handleDownload(item.filename)}
                   style={item.selectedClass}
                   selected={item.isSelected}
