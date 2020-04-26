@@ -131,8 +131,8 @@ android {
         applicationId "com.eslip"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "4.4"
+        versionCode 12
+        versionName "4.5"
     }
     splits {
         abi {

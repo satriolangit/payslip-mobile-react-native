@@ -18,6 +18,7 @@ import UserListScreen from './UserList/UserList';
 import FileListScreen from './FileList/FileList';
 import UploadFileScreen from './UploadFile/UploadFile';
 import UploadPayslipScreen from './UploadPayslip/UploadPayslip';
+import ChangePasswordScreen from './ChangePassword/ChangePassword';
 
 export {
   DashboardScreen,
@@ -40,4 +41,5 @@ export {
   FileListScreen,
   UploadFileScreen,
   UploadPayslipScreen,
+  ChangePasswordScreen,
 };

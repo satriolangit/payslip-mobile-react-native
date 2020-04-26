@@ -38,14 +38,18 @@ class InformationDetailScreen extends Component {
   };
 
   renderNode = (node, index, siblings, parent, defaultRenderer) => {
-    if (node.name === 'img') {
-      //console.log(node.attribs.src);
-      const imgSrc = node.attribs.src;
-      return (
-        <TouchableOpacity onLongPress={() => this.handleImagePress(imgSrc)}>
-          <Image source={{uri: imgSrc}} style={styles.image} />
-        </TouchableOpacity>
-      );
+    try {
+      if (node.name === 'img') {
+        //console.log(node.attribs.src);
+        const imgSrc = node.attribs.src;
+        return (
+          <TouchableOpacity onLongPress={() => this.handleImagePress(imgSrc)}>
+            <Image source={{uri: imgSrc}} style={styles.image} />
+          </TouchableOpacity>
+        );
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

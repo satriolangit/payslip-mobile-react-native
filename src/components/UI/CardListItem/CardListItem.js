@@ -5,7 +5,8 @@ import moment from 'moment';
 
 class CardListItem extends Component {
   renderText = text => {
-    const cleanText = text.replace(/(<([^>]+)>)/gi, '');
+    let cleanText = text.replace(/(<([^>]+)>)/gi, '');
+    cleanText = cleanText.replace('&nbsp;', ' ');
     let result = cleanText;
     if (cleanText.length > 100) {
       result = cleanText.substr(0, 100) + '...';
@@ -28,7 +29,9 @@ class CardListItem extends Component {
           <View style={styles.textMutedContainer}>
             <Icon name="clock" size={10} color="#aaa" />
             <Text style={styles.textMuted}>
-              {moment(this.props.created_on).format('MMMM DD YYYY, HH:mm:ss')}
+              {moment(this.props.item.created_on).format(
+                'MMMM DD YYYY, HH:mm:ss',
+              )}
             </Text>
           </View>
         </View>

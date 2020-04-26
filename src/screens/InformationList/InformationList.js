@@ -7,6 +7,7 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
 import {Navigation} from 'react-native-navigation';
@@ -21,9 +22,9 @@ import {
   Root,
 } from 'native-base';
 
-import {API_URL, API_JSON_HEADER} from '../../../appSetting';
+import {API_URL, API_JSON_HEADER, LIST_PAGE_SIZE} from '../../../appSetting';
 import ListItem from '../../components/InformationListItem/InformationListItem';
-import {showDangerToast} from '../../helper';
+import {showDangerToast, showInfoToast} from '../../helper';
 
 // eslint-disable-next-line react-native/no-inline-styles
 
@@ -40,13 +41,14 @@ class InformationList extends Component {
       selectedItems: [],
       active: false,
       isSearch: false,
+      totalData: 0,
     };
 
     Navigation.events().bindComponent(this);
   }
 
   componentDidMount() {
-    this.handleFetch();
+    this.handleRefresh();
   }
 
   navigationButtonPressed({buttonId}) {
@@ -69,7 +71,7 @@ class InformationList extends Component {
 
   fetchData = async page => {
     try {
-      let url = API_URL + 'information/page/' + page;
+      let url = `${API_URL}information/page/${page}/${LIST_PAGE_SIZE}`;
       const res = await axios.get(url);
 
       const data = res.data.data.map(item => {
@@ -78,25 +80,33 @@ class InformationList extends Component {
         return item;
       });
 
-      this.setState({data: data});
+      console.log(data.length, 'totalData:', res.data.totalData);
+      this.setState({totalData: res.data.totalData});
+
+      return data;
     } catch (err) {
-      showDangerToast(err);
+      //showDangerToast(err);
       console.log(err);
     }
   };
 
-  handleFetch = async () => {
-    this.setState({isRefreshing: true});
-    await this.fetchData(this.state.page);
-    this.setState({isRefreshing: false});
+  handleRefresh = async () => {
+    this.setState({isRefreshing: true, page: 1});
+    const data = await this.fetchData(this.state.page);
+    this.setState({isRefreshing: false, data: data});
   };
 
-  handleLoadMore = () => {
+  handleLoadMore = async () => {
     if (!this.state.loading && !this.state.isSearch) {
-      this.setState({isRefreshing: true});
-      this.setState({page: this.state.page + 1});
-      this.fetchData(this.state.page);
-      this.setState({isRefreshing: false});
+      this.setState({page: this.state.page + 1, isRefreshing: true});
+      const moreData = await this.fetchData(this.state.page);
+
+      this.setState({
+        isRefreshing: false,
+        data: [...this.state.data, ...moreData],
+      });
+
+      //console.log(this.state.data);
     }
   };
 
@@ -158,7 +168,7 @@ class InformationList extends Component {
   };
 
   handleSelectAll = () => {
-    this.state.isSelectAll = !this.state.isSelectAll;
+    this.setState({isSelectAll: !this.state.isSelectAll});
 
     const selectAll = this.state.data.map(item => {
       item.isSelected = this.state.isSelectAll;
@@ -184,12 +194,14 @@ class InformationList extends Component {
 
         this.fetchData();
       } catch (err) {
-        //showDangerToast(err);
+        showDangerToast(
+          'Gagal menghapus item, silahkan hubungi administrator.',
+        );
         console.log(err);
       }
+    } else {
+      showInfoToast('Silahkan pilih item yg akan dihapus.');
     }
-
-    //('selectedItems:', this.state.selectedItems);
   };
 
   handleAdd = () => {
@@ -244,11 +256,35 @@ class InformationList extends Component {
   };
 
   renderFooter = () => {
-    //it will show indicator at the bottom of the list when data is loading otherwise it returns null
-    if (!this.state.loading) {
+    if (
+      !this.state.data ||
+      this.state.isSearch ||
+      this.state.totalData <= LIST_PAGE_SIZE
+    ) {
       return null;
     }
-    return <ActivityIndicator style={{color: '#000'}} />;
+
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'row',
+          backgroundColor: '#2f353a',
+          padding: 10,
+        }}>
+        <TouchableOpacity onPress={this.handleLoadMore}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: '#FFF',
+            }}>
+            More
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
   };
 
   renderFab = () => (
@@ -308,7 +344,7 @@ class InformationList extends Component {
               extraData={this.state}
               refreshControl={
                 <RefreshControl
-                  onRefresh={this.handleFetch}
+                  onRefresh={this.handleRefresh}
                   refreshing={this.state.isRefreshing}
                 />
               }
@@ -325,8 +361,6 @@ class InformationList extends Component {
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={this.renderSeparator}
               ListFooterComponent={this.renderFooter}
-              onEndReachedThreshold={0.4}
-              onEndReached={this.handleLoadMore}
             />
             {this.renderFab()}
           </View>

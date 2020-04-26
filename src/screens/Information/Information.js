@@ -65,8 +65,10 @@ class InformationScreen extends Component {
     try {
       let url = API_URL + 'information';
       const res = await axios.get(url);
+      const data = res.data.data;
+      this.setState({data: data});
 
-      this.setState({data: res.data.data});
+      //console.log(data);
     } catch (err) {
       console.log(err);
     }

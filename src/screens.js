@@ -23,6 +23,7 @@ import {
   FileListScreen,
   UploadFileScreen,
   UploadPayslipScreen,
+  ChangePasswordScreen,
 } from './screens/index';
 
 const registerScreens = (Provider, store) => {
@@ -143,6 +144,10 @@ const registerScreens = (Provider, store) => {
     () => UploadPayslipScreen,
     Provider,
     store,
+  );
+  Navigation.registerComponent(
+    'eslip.ChangePasswordScreen',
+    () => ChangePasswordScreen,
   );
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {Radio} from 'native-base';
 import moment from 'moment';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 
 const FileListItem = props => {
   const {filename, created_time} = props.data;
@@ -16,7 +16,7 @@ const FileListItem = props => {
           <Text style={styles.title}>{filename}</Text>
         </View>
         <View style={styles.subtitleContainer}>
-          <Icon name="clock" size={10} color="#aaa" />
+          <SimpleIcon name="clock" size={10} color="#aaa" />
           <Text style={styles.textMuted}>
             Type :{moment(created_time).format('MMMM DD YYYY, HH:mm')}
           </Text>

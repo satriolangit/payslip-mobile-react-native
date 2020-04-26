@@ -4,6 +4,11 @@ import {Radio} from 'native-base';
 import moment from 'moment';
 
 const PayslipListItem = props => {
+  const lastDownload =
+    props.data.last_download_on === null
+      ? '-'
+      : moment(props.data.last_download_on).format('DD MMM YYYY, HH:mm:ss');
+
   return (
     <TouchableOpacity
       style={[styles.container, props.style]}
@@ -24,6 +29,9 @@ const PayslipListItem = props => {
           <Text style={styles.textMuted}>
             Downloads :{props.data.download_count}
           </Text>
+        </View>
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.textMuted}>last download : {lastDownload}</Text>
         </View>
       </View>
       <View style={styles.radioContainer}>

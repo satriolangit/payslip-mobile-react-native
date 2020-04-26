@@ -8,8 +8,6 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  PermissionsAndroid,
-  Alert,
 } from 'react-native';
 import axios from 'axios';
 import {Navigation} from 'react-native-navigation';
@@ -24,8 +22,9 @@ import {
   Root,
 } from 'native-base';
 
-import {API_URL, API_JSON_HEADER} from '../../../appSetting';
+import {API_URL, API_JSON_HEADER, LIST_PAGE_SIZE} from '../../../appSetting';
 import ListItem from '../../components/UserListItem/UserListItem';
+import {showInfoToast} from '../../helper';
 
 class UserList extends Component {
   constructor(props) {
@@ -40,6 +39,7 @@ class UserList extends Component {
       selectedItems: [],
       active: false,
       isSearch: false,
+      totalData: 0,
     };
 
     Navigation.events().bindComponent(this);
@@ -69,7 +69,7 @@ class UserList extends Component {
 
   fetchData = async (page = 1) => {
     try {
-      let url = API_URL + 'users/page/' + page;
+      let url = `${API_URL}users/page/${page}/${LIST_PAGE_SIZE}`;
       const res = await axios.get(url);
 
       const data = res.data.data.map(item => {
@@ -78,7 +78,8 @@ class UserList extends Component {
         return item;
       });
 
-      console.log(data);
+      console.log(data.length, 'totalData:', res.data.totalData);
+      this.setState({totalData: res.data.totalData});
 
       return data;
     } catch (err) {
@@ -95,8 +96,7 @@ class UserList extends Component {
 
   handleLoadMore = async () => {
     if (!this.state.loading && !this.state.isSearch) {
-      this.setState({isRefreshing: true});
-      this.setState({page: this.state.page + 1});
+      this.setState({page: this.state.page + 1, isRefreshing: true});
       const moreData = await this.fetchData(this.state.page);
 
       this.setState({
@@ -226,6 +226,27 @@ class UserList extends Component {
     });
   };
 
+  handleChangePassword = () => {
+    if (this.state.selectedItems.length > 0) {
+      const userId = this.state.selectedItems[0];
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'eslip.ChangePasswordScreen',
+          passProps: {
+            data: userId,
+          },
+          options: {
+            topBar: {
+              title: {
+                text: 'Change Password',
+              },
+            },
+          },
+        },
+      });
+    }
+  };
+
   renderSeparator = () => {
     return (
       <View
@@ -239,7 +260,11 @@ class UserList extends Component {
   };
 
   renderFooter = () => {
-    if (!this.state.data || this.state.data.length <= 30) {
+    if (
+      !this.state.data ||
+      this.state.isSearch ||
+      this.state.totalData <= LIST_PAGE_SIZE
+    ) {
       return null;
     }
 
@@ -277,6 +302,11 @@ class UserList extends Component {
       <Icon name="md-apps" />
       <Button style={{backgroundColor: '#34A34F'}} onPress={this.handleAdd}>
         <Icon name="md-add" />
+      </Button>
+      <Button
+        style={{backgroundColor: '#000000'}}
+        onPress={this.handleChangePassword}>
+        <Icon name="md-lock" />
       </Button>
       <Button
         style={{backgroundColor: '#3B5998'}}

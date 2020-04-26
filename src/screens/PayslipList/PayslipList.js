@@ -25,7 +25,12 @@ import {
 } from 'native-base';
 import RNFetchBlob from 'rn-fetch-blob';
 
-import {API_URL, API_JSON_HEADER, PAYSLIP_URL} from '../../../appSetting';
+import {
+  API_URL,
+  API_JSON_HEADER,
+  PAYSLIP_URL,
+  LIST_PAGE_SIZE,
+} from '../../../appSetting';
 import ListItem from '../../components/PayslipListItem/PayslipListItem';
 import {showDangerToast} from '../../helper';
 
@@ -42,6 +47,7 @@ class PayslipList extends Component {
       selectedItems: [],
       active: false,
       isSearch: false,
+      totalData: 0,
     };
 
     Navigation.events().bindComponent(this);
@@ -71,7 +77,8 @@ class PayslipList extends Component {
 
   fetchData = async (page = 1) => {
     try {
-      let url = API_URL + 'payslip/page/' + page;
+      let url = `${API_URL}payslip/page/${page}/${LIST_PAGE_SIZE}`;
+
       const res = await axios.get(url);
 
       const data = res.data.data.map(item => {
@@ -81,6 +88,9 @@ class PayslipList extends Component {
       });
 
       //this.setState({data: data});
+      console.log(data.length, 'totalData:', res.data.totalData, data);
+      this.setState({totalData: res.data.totalData});
+
       return data;
     } catch (err) {
       //showDangerToast(err);
@@ -92,6 +102,8 @@ class PayslipList extends Component {
     this.setState({isRefreshing: true, page: 1});
     const data = await this.fetchData(this.state.page);
     this.setState({data: data, isRefreshing: false});
+
+    console.log('data: ' + this.state.data.length);
   };
 
   handleLoadMore = async () => {
@@ -150,7 +162,7 @@ class PayslipList extends Component {
   };
 
   handleSelectAll = () => {
-    this.state.isSelectAll = !this.state.isSelectAll;
+    this.setState({isSelectAll: !this.state.isSelectAll});
 
     const selectAll = this.state.data.map(item => {
       item.isSelected = this.state.isSelectAll;
@@ -285,7 +297,11 @@ class PayslipList extends Component {
   };
 
   renderFooter = () => {
-    if (!this.state.data || this.state.data.length <= 30) {
+    if (
+      !this.state.data ||
+      this.state.isSearch ||
+      this.state.totalData <= LIST_PAGE_SIZE
+    ) {
       return null;
     }
 

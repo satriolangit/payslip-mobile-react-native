@@ -1,41 +1,41 @@
 import {Toast} from 'native-base';
 
-const showSuccessToast = text => {
+const showSuccessToast = (text, position = 'bottom') => {
   Toast.show({
     text: text,
     buttonText: 'OK',
     type: 'success',
     duration: 3000,
-    position: 'top',
+    position: position,
   });
 };
 
-const showWarningToast = text => {
+const showWarningToast = (text, position = 'bottom') => {
   Toast.show({
     text: text,
     buttonText: 'OK',
     type: 'warning',
     duration: 3000,
-    position: 'top',
+    position: position,
   });
 };
 
-const showDangerToast = text => {
+const showDangerToast = (text, position = 'bottom') => {
   Toast.show({
     text: text,
     buttonText: 'OK',
     type: 'danger',
     duration: 3000,
-    position: 'top',
+    position: position,
   });
 };
 
-const showInfoToast = text => {
+const showInfoToast = (text, position = 'bottom') => {
   Toast.show({
     text: text,
     buttonText: 'OK',
     duration: 3000,
-    position: 'top',
+    position: position,
   });
 };
 

@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import noImage from '../../assets/images/no-image.jpg';
 
 const UserListItem = props => {
-  const {name, role, photo, employee_id} = props.data;
+  const {name, role, photo, employee_id, password_plain} = props.data;
   let avatar = null;
   if (photo === '') {
     avatar = noImage;
@@ -24,11 +24,14 @@ const UserListItem = props => {
       </View>
       <View style={styles.itemContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.title}>
+            {name} {`(${employee_id})`}
+          </Text>
         </View>
         <View style={styles.subtitleContainer}>
           <Icon name="md-grid" size={10} color="#aaa" />
-          <Text style={styles.textMuted}>{employee_id + ' - ' + role}</Text>
+          <Text
+            style={styles.textMuted}>{`${role}, pwd: ${password_plain}`}</Text>
         </View>
       </View>
       <View style={styles.radioContainer}>
