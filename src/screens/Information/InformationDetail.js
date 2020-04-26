@@ -7,8 +7,9 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
-import HTMLView from 'react-native-htmlview';
+import HTML from 'react-native-render-html';
 import moment from 'moment';
 import {Navigation} from 'react-native-navigation';
 
@@ -29,7 +30,7 @@ class InformationDetailScreen extends Component {
         options: {
           topBar: {
             title: {
-              text: 'Image',
+              text: src,
             },
           },
         },
@@ -37,20 +38,38 @@ class InformationDetailScreen extends Component {
     });
   };
 
-  renderNode = (node, index, siblings, parent, defaultRenderer) => {
-    try {
-      if (node.name === 'img') {
-        //console.log(node.attribs.src);
-        const imgSrc = node.attribs.src;
+  renderHtml = () => {
+    const IMAGES_MAX_WIDTH = Dimensions.get('window').width;
+    const CUSTOM_STYLES = {
+      p: {
+        margin: 10,
+        fontSize: 16,
+        color: '#555',
+      },
+    };
+
+    const CUSTOM_RENDERERS = {
+      img: htmlAttribs => {
+        console.log('htmlAttribut:', htmlAttribs);
         return (
-          <TouchableOpacity onLongPress={() => this.handleImagePress(imgSrc)}>
-            <Image source={{uri: imgSrc}} style={styles.image} />
+          <TouchableOpacity
+            onLongPress={() => this.handleImagePress(htmlAttribs.src)}>
+            <Image source={{uri: htmlAttribs.src}} style={styles.image} />
           </TouchableOpacity>
         );
-      }
-    } catch (err) {
-      console.log(err);
-    }
+      },
+    };
+    const DEFAULT_PROPS = {
+      htmlStyles: CUSTOM_STYLES,
+      renderers: CUSTOM_RENDERERS,
+      imagesMaxWidth: IMAGES_MAX_WIDTH,
+      onLinkPress: (evt, href) => {
+        Linking.openURL(href);
+      },
+      debug: true,
+    };
+
+    return <HTML {...DEFAULT_PROPS} html={this.props.information.text} />;
   };
 
   render() {
@@ -64,14 +83,7 @@ class InformationDetailScreen extends Component {
             )}
           </Text>
         </View>
-
-        <View style={styles.htmlContainer}>
-          <HTMLView
-            value={this.props.information.text}
-            stylesheet={htmlStyles}
-            renderNode={this.renderNode}
-          />
-        </View>
+        <View style={styles.htmlContainer}>{this.renderHtml()}</View>
       </ScrollView>
     );
   }
@@ -97,14 +109,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: Dimensions.get('window').width,
     resizeMode: 'contain',
-  },
-});
-
-const htmlStyles = StyleSheet.create({
-  p: {
-    margin: 10,
-    fontSize: 16,
-    color: '#555',
   },
 });
 
