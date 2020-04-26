@@ -28,16 +28,17 @@ class InformationForm extends Component {
     isLoading: false,
     title: '',
     text: '<p></p>',
+    id: null,
   };
 
   componentWillMount() {
     if (this.props.data !== null) {
-      const {title, text} = this.props.data;
-      this.setState({title: title, text: text});
+      const {title, text, id} = this.props.data;
+      this.setState({title: title, text: text, id: id});
     }
   }
 
-  handleSave = async () => {
+  create = async () => {
     // Get the data here and call the interface to save the data
     let html = await this.richText.getContentHtml();
     console.log(html);
@@ -54,8 +55,39 @@ class InformationForm extends Component {
       this.setState({isLoading: false});
       Navigation.pop(this.props.componentId);
     } catch (err) {
-      //showDangerToast(err);
+      showDangerToast('Create informasi gagal.');
       console.log(err);
+    }
+  };
+
+  update = async () => {
+    // Get the data here and call the interface to save the data
+    let html = await this.richText.getContentHtml();
+    console.log(html);
+
+    const formData = {
+      title: this.state.title,
+      text: html,
+      id: this.state.id,
+    };
+
+    try {
+      this.setState({isLoading: true});
+      const url = API_URL + 'information/update';
+      await axios.post(url, formData, API_JSON_HEADER);
+      this.setState({isLoading: false});
+      Navigation.pop(this.props.componentId);
+    } catch (err) {
+      showDangerToast('Update informasi gagal.');
+      console.log(err);
+    }
+  };
+
+  handleSave = async () => {
+    if (this.props.data !== null) {
+      await this.update();
+    } else {
+      await this.create();
     }
   };
 
