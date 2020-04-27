@@ -17,7 +17,7 @@ import {connect} from 'react-redux';
 
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import RNFetchBlob from 'rn-fetch-blob';
-import {API_URL, PAYSLIP_URL} from '../../../appSetting';
+import {API_URL, PAYSLIP_URL, API_JSON_HEADER} from '../../../appSetting';
 
 class PayslipScreen extends Component {
   constructor(props) {
@@ -53,37 +53,6 @@ class PayslipScreen extends Component {
       },
     });
   };
-
-  // handleItemPressed = async filename => {
-  //   //get base64
-  //   try {
-  //     const url = API_URL + 'payslip/open/' + filename;
-
-  //     const res = await axios.get(url);
-  //     const pdf = res.data.response;
-  //     const source = {uri: 'data:application/pdf;base64,' + pdf};
-  //     console.log(source);
-
-  //     Navigation.push(this.props.componentId, {
-  //       component: {
-  //         name: 'eslip.PayslipDetailScreen',
-  //         passProps: {
-  //           source: source,
-  //         },
-  //         options: {
-  //           topBar: {
-  //             title: {
-  //               text: 'Detail',
-  //             },
-  //           },
-  //         },
-  //       },
-  //     });
-  //   } catch (error) {
-  //     Alert.alert('Failed to open file');
-  //     console.log('error:', error);
-  //   }
-  // };
 
   requestPermission = async () => {
     try {
@@ -139,9 +108,19 @@ class PayslipScreen extends Component {
       });
   };
 
-  handleItemPressed = filename => {
+  updateLastDownload = async filename => {
     try {
-      this.download(filename);
+      const url = API_URL + 'payslip/download';
+      await axios.post(url, {filename: filename}, API_JSON_HEADER);
+    } catch (error) {
+      console.log('updateLastDownlaod: ', error);
+    }
+  };
+
+  handleItemPressed = async filename => {
+    try {
+      await this.download(filename);
+      await this.updateLastDownload(filename);
     } catch (error) {
       Alert(
         'Gagal',

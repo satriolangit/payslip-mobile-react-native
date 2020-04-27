@@ -36,7 +36,7 @@ class SideDrawer extends Component {
   handleItemPress = tabIndex => {
     startApp(tabIndex);
 
-    this.props.onTabChanged(tabIndex);
+    //this.props.onTabChanged(tabIndex);
   };
 
   renderAdministration = role => {
@@ -230,4 +230,7 @@ const mapStateToProps = state => {
 };
 
 // eslint-disable-next-line prettier/prettier
-export default connect(mapStateToProps, mapDispatchToProps)(SideDrawer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SideDrawer);

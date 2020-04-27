@@ -149,6 +149,9 @@ export const startApp = (tabIndex = 0) => {
             visible: true,
             alignment: 'center',
           },
+          bottomTabs: {
+            currentTabIndex: tabIndex,
+          },
         },
       };
 

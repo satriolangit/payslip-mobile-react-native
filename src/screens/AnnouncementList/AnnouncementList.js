@@ -152,6 +152,7 @@ class AnnouncementList extends Component {
 
     this.setState({
       data: selectAll,
+      active: false,
       selectedItems: this.state.isSelectAll
         ? selectAll.map(item => item.id)
         : [],
@@ -166,14 +167,16 @@ class AnnouncementList extends Component {
         const url = API_URL + 'announcement/multidelete';
         await axios.post(url, {ids: selectedItems}, API_JSON_HEADER);
 
-        this.fetchData();
+        this.handleRefresh();
       } catch (err) {
         //showDangerToast(err);
         console.log(err);
       }
     }
 
-    console.log('selectedItems:', this.state.selectedItems);
+    this.setState({active: false});
+
+    // console.log('selectedItems:', this.state.selectedItems);
   };
 
   handleAdd = () => {

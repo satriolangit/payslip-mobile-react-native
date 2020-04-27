@@ -172,6 +172,7 @@ class PayslipList extends Component {
 
     this.setState({
       data: selectAll,
+      active: false,
       selectedItems: this.state.isSelectAll
         ? selectAll.map(item => item.idx)
         : [],
@@ -196,7 +197,8 @@ class PayslipList extends Component {
       }
     }
 
-    console.log('selectedItems:', this.state.selectedItems);
+    this.setState({active: false});
+    // console.log('selectedItems:', this.state.selectedItems);
   };
 
   handleUpload = () => {

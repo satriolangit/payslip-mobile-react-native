@@ -161,6 +161,7 @@ class UserList extends Component {
 
     this.setState({
       data: selectAll,
+      active: false,
       selectedItems: this.state.isSelectAll
         ? selectAll.map(item => item.user_id)
         : [],
@@ -185,7 +186,8 @@ class UserList extends Component {
       }
     }
 
-    console.log('selectedItems:', selectedItems);
+    this.setState({active: false});
+    // console.log('selectedItems:', selectedItems);
   };
 
   handleAdd = () => {

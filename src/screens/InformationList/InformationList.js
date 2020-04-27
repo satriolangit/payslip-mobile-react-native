@@ -178,6 +178,7 @@ class InformationList extends Component {
 
     this.setState({
       data: selectAll,
+      active: false,
       selectedItems: this.state.isSelectAll
         ? selectAll.map(item => item.id)
         : [],
@@ -192,7 +193,7 @@ class InformationList extends Component {
         const url = API_URL + 'information/multidelete';
         await axios.post(url, {ids: selectedItems}, API_JSON_HEADER);
 
-        this.fetchData();
+        this.handleRefresh();
       } catch (err) {
         showDangerToast(
           'Gagal menghapus item, silahkan hubungi administrator.',
@@ -202,6 +203,8 @@ class InformationList extends Component {
     } else {
       showInfoToast('Silahkan pilih item yg akan dihapus.');
     }
+
+    this.setState({active: false});
   };
 
   handleAdd = () => {

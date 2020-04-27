@@ -42,6 +42,7 @@ class DashboardScreen extends Component {
         },
       });
 
+      console.log('tabIndex: ', this.props.tabIndex);
       this.toggleDrawer();
     }
   }
@@ -225,4 +226,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 // eslint-disable-next-line prettier/prettier
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DashboardScreen);
