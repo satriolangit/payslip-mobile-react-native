@@ -80,7 +80,7 @@ class InformationList extends Component {
         return item;
       });
 
-      console.log(data.length, 'totalData:', res.data.totalData);
+      // console.log(data.length, 'totalData:', res.data.totalData);
       this.setState({totalData: res.data.totalData});
 
       return data;

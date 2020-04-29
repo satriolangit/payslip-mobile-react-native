@@ -135,9 +135,9 @@ class PayslipScreen extends Component {
     this.setState({isRefreshing: true});
     try {
       const url = API_URL + 'payslip/' + this.props.user.employee_id + '/1';
-      console.log(url);
+      // console.log(url);
       const res = await axios.get(url);
-      console.log(res.data);
+      // console.log(res.data);
       const payslip = res.data.data[0];
       this.setState({isRefreshing: false, payslip});
     } catch (error) {

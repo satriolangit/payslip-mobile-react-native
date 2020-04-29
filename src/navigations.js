@@ -3,7 +3,7 @@ import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
 export const startApp = (tabIndex = 0) => {
-  console.log('tabIndex:', tabIndex);
+  //console.log('tabIndex:', tabIndex);
 
   Promise.all([
     IonIcon.getImageSource('md-menu', 30),

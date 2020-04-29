@@ -41,7 +41,7 @@ class InformationForm extends Component {
   create = async () => {
     // Get the data here and call the interface to save the data
     let html = await this.richText.getContentHtml();
-    console.log(html);
+    // console.log(html);
 
     const formData = {
       title: this.state.title,
@@ -63,7 +63,7 @@ class InformationForm extends Component {
   update = async () => {
     // Get the data here and call the interface to save the data
     let html = await this.richText.getContentHtml();
-    console.log(html);
+    // console.log(html);
 
     const formData = {
       title: this.state.title,
@@ -139,7 +139,7 @@ class InformationForm extends Component {
           this.setState({isLoading: true});
           const res = await axios.post(url, formData, API_MULTIPART_HEADER);
           const imageUrl = res.data.imageUrl;
-          console.log('imageUrl', imageUrl);
+          // console.log('imageUrl', imageUrl);
           this.richText.insertImage(imageUrl);
           this.richText.blurContentEditor();
 
