@@ -5,7 +5,9 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
+import {Accordion, Icon} from 'native-base';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import {connect} from 'react-redux';
 
