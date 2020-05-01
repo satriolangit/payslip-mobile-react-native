@@ -42,81 +42,102 @@ class SideDrawer extends Component {
   };
 
   renderAdministration = role => {
-    if (role === 'admin') {
-      return (
-        <View>
-          <View style={styles.divider} />
-          <View style={styles.drawerItem}>
+    const items = [
+      {title: 'Administration', content: 'Administrator Navigation'},
+    ];
+
+    const renderHeader = (item, expanded) => (
+      <View style={styles.drawerItem}>
+        {expanded ? (
+          <Icon
+            style={styles.drawerItemIcon}
+            color="#aaa"
+            name="ios-arrow-up"
+          />
+        ) : (
+          <Icon
+            style={styles.drawerItemIcon}
+            color="#aaa"
+            name="ios-arrow-down"
+          />
+        )}
+        <Text style={styles.drawerLabel}>Administration</Text>
+      </View>
+    );
+
+    const renderContent = () => (
+      <View>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => goToUserList()}>
+          <View style={styles.accordionItem}>
             <SimpleIcon
-              name="settings"
+              name="people"
               size={25}
               color="#aaa"
               style={styles.drawerItemIcon}
             />
-            <Text style={styles.drawerLabel}>Administration</Text>
+            <Text style={styles.drawerLabel}>User</Text>
           </View>
-          <TouchableOpacity activeOpacity={0.8} onPress={() => goToUserList()}>
-            <View style={styles.drawerItem}>
-              <SimpleIcon
-                name="people"
-                size={25}
-                color="#aaa"
-                style={styles.drawerItemIcon}
-              />
-              <Text style={styles.drawerLabel}>User</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => goToInformationList()}>
-            <View style={styles.drawerItem}>
-              <SimpleIcon
-                name="book-open"
-                size={25}
-                color="#aaa"
-                style={styles.drawerItemIcon}
-              />
-              <Text style={styles.drawerLabel}>Informasi</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => goToAnnouncementList()}>
-            <View style={styles.drawerItem}>
-              <SimpleIcon
-                name="bell"
-                size={25}
-                color="#aaa"
-                style={styles.drawerItemIcon}
-              />
-              <Text style={styles.drawerLabel}>Pengumuman</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => goToPayslipList()}>
-            <View style={styles.drawerItem}>
-              <SimpleIcon
-                name="docs"
-                size={25}
-                color="#aaa"
-                style={styles.drawerItemIcon}
-              />
-              <Text style={styles.drawerLabel}>Payslip</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} onPress={() => goToFileList()}>
-            <View style={styles.drawerItem}>
-              <SimpleIcon
-                name="puzzle"
-                size={25}
-                color="#aaa"
-                style={styles.drawerItemIcon}
-              />
-              <Text style={styles.drawerLabel}>Files</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => goToInformationList()}>
+          <View style={styles.accordionItem}>
+            <SimpleIcon
+              name="book-open"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Informasi</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => goToAnnouncementList()}>
+          <View style={styles.accordionItem}>
+            <SimpleIcon
+              name="bell"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Pengumuman</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => goToPayslipList()}>
+          <View style={styles.accordionItem}>
+            <SimpleIcon
+              name="docs"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Payslip</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => goToFileList()}>
+          <View style={styles.accordionItem}>
+            <SimpleIcon
+              name="puzzle"
+              size={25}
+              color="#aaa"
+              style={styles.drawerItemIcon}
+            />
+            <Text style={styles.drawerLabel}>Files</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+
+    if (role === 'admin') {
+      return (
+        <Accordion
+          dataArray={items}
+          animation={true}
+          renderHeader={renderHeader}
+          renderContent={renderContent}
+          style={styles.accordion}
+        />
       );
     }
   };
@@ -168,7 +189,6 @@ class SideDrawer extends Component {
             <Text style={styles.drawerLabel}>Pengumuman</Text>
           </View>
         </TouchableOpacity>
-        {this.renderAdministration(this.props.user.role)}
         <TouchableOpacity onPress={this.handleSignOut} activeOpacity={0.8}>
           <View style={styles.drawerItem}>
             <SimpleIcon
@@ -180,6 +200,7 @@ class SideDrawer extends Component {
             <Text style={styles.drawerLabel}>Sign Out</Text>
           </View>
         </TouchableOpacity>
+        {this.renderAdministration(role)}
       </View>
     );
   }
@@ -200,9 +221,24 @@ const styles = StyleSheet.create({
   },
   drawerItemIcon: {
     marginRight: 10,
+    color: '#aaa',
   },
   drawerLabel: {
     color: 'white',
+  },
+  accordion: {borderWidth: 0},
+  accordionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+  },
+  accordionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: 'transparent',
   },
   userContainer: {
     width: '90%',

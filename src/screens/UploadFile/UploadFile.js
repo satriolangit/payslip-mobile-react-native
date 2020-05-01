@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
-import {Button, Icon, Fab, Header, Left, Right} from 'native-base';
+import {Button, Icon, Fab, Header, Left, Right, Root} from 'native-base';
 import DocumentPicker from 'react-native-document-picker';
 import axios from 'axios';
 
 import ListItem from '../../components/UploadFileListItem/UploadFileListItem';
 import {API_MULTIPART_HEADER, API_URL} from '../../../appSetting';
+import {showDangerToast} from '../../helper';
 
 class UploadFile extends Component {
   state = {
@@ -16,7 +17,7 @@ class UploadFile extends Component {
   handleAddFiles = async () => {
     try {
       const results = await DocumentPicker.pickMultiple({
-        type: [DocumentPicker.types.pdf],
+        type: [DocumentPicker.types.allFiles],
       });
 
       this.setState({files: [...this.state.files, ...results]});
@@ -49,8 +50,11 @@ class UploadFile extends Component {
       this.setState({isLoading: true});
 
       try {
-        await axios.post(url, formData, API_MULTIPART_HEADER);
+        const res = await axios.post(url, formData, API_MULTIPART_HEADER);
+        console.log(res.data);
       } catch (error) {
+        showDangerToast('Upload file gagal, silahkan hubungi admin.');
+        console.log(error);
         this.setState({isLoading: false});
       }
 
@@ -88,38 +92,42 @@ class UploadFile extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Header style={styles.header}>
-          <Left>
-            <Text style={styles.infoText}>
-              Files : {this.state.files.length}
-            </Text>
-          </Left>
-          <Right>
-            <Button warning onPress={this.handleUpload}>
-              <Text style={styles.buttonText}>Upload</Text>
-            </Button>
-          </Right>
-        </Header>
-        <FlatList
-          data={this.state.files}
-          extraData={this.state}
-          refreshControl={<RefreshControl refreshing={this.state.isLoading} />}
-          renderItem={({item}) => (
-            <ListItem
-              filename={item.name}
-              type={item.type}
-              size={item.size}
-              onRemoveItem={() => this.handleRemoveFile(item.name)}
-              style={item.selectedClass}
-              selected={item.isSelected}
-            />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={this.renderSeparator}
-        />
-        {this.renderFab()}
-      </View>
+      <Root>
+        <View style={styles.container}>
+          <Header style={styles.header}>
+            <Left>
+              <Text style={styles.infoText}>
+                Files : {this.state.files.length}
+              </Text>
+            </Left>
+            <Right>
+              <Button warning onPress={this.handleUpload}>
+                <Text style={styles.buttonText}>Upload</Text>
+              </Button>
+            </Right>
+          </Header>
+          <FlatList
+            data={this.state.files}
+            extraData={this.state}
+            refreshControl={
+              <RefreshControl refreshing={this.state.isLoading} />
+            }
+            renderItem={({item}) => (
+              <ListItem
+                filename={item.name}
+                type={item.type}
+                size={item.size}
+                onRemoveItem={() => this.handleRemoveFile(item.name)}
+                style={item.selectedClass}
+                selected={item.isSelected}
+              />
+            )}
+            keyExtractor={(item, index) => index.toString()}
+            ItemSeparatorComponent={this.renderSeparator}
+          />
+          {this.renderFab()}
+        </View>
+      </Root>
     );
   }
 }

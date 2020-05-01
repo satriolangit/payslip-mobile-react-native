@@ -170,6 +170,7 @@ class FileList extends Component {
 
     this.setState({
       data: selectAll,
+      active: false,
       selectedItems: this.state.isSelectAll
         ? selectAll.map(item => item.idx)
         : [],
@@ -222,6 +223,8 @@ class FileList extends Component {
         },
       },
     });
+
+    this.setState({active: false});
   };
 
   handleDownload = filename => {
