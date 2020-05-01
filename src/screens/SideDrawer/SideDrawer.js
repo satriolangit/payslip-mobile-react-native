@@ -5,7 +5,6 @@ import {
   Dimensions,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import {Accordion, Icon} from 'native-base';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
@@ -267,7 +266,6 @@ const mapStateToProps = state => {
   };
 };
 
-// eslint-disable-next-line prettier/prettier
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

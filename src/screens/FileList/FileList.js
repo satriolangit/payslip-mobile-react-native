@@ -94,7 +94,7 @@ class FileList extends Component {
 
       return data;
     } catch (err) {
-      //showDangerToast(err);
+      showDangerToast('Gagal mengambil data, silahkan hubungi admin.');
       console.log(err);
     }
   };
