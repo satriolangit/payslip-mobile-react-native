@@ -76,7 +76,7 @@ class AnnouncementList extends Component {
         return item;
       });
 
-      console.log(data.length, 'totalData:', res.data.totalData);
+      //console.log(data.length, 'totalData:', res.data.totalData);
       this.setState({totalData: res.data.totalData});
 
       return data;
@@ -135,7 +135,7 @@ class AnnouncementList extends Component {
 
       this.setState({data: data, isSearch: keywords.length > 0});
 
-      console.log(this.state.data);
+      //console.log(this.state.data);
     } catch (err) {
       console.log(err);
     }
@@ -199,10 +199,10 @@ class AnnouncementList extends Component {
   };
 
   handleEdit = item => {
-    console.log('handleEdit');
+    //console.log('handleEdit');
     const title =
       item.title.length > 20 ? item.title.substr(0, 20) + '...' : item.title;
-    console.log(item);
+    // console.log(item);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'eslip.AnnouncementFormScreen',

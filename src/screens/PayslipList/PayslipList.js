@@ -87,8 +87,7 @@ class PayslipList extends Component {
         return item;
       });
 
-      //this.setState({data: data});
-      console.log(data.length, 'totalData:', res.data.totalData, data);
+      // console.log(data.length, 'totalData:', res.data.totalData, data);
       this.setState({totalData: res.data.totalData});
 
       return data;
@@ -103,7 +102,7 @@ class PayslipList extends Component {
     const data = await this.fetchData(this.state.page);
     this.setState({data: data, isRefreshing: false});
 
-    console.log('data: ' + this.state.data.length);
+    // console.log('data: ' + this.state.data.length);
   };
 
   handleLoadMore = async () => {

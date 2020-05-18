@@ -12,12 +12,12 @@ import {goToLogin, startApp} from '../../navigations';
 
 export const login = authData => async dispatch => {
   const url = API_URL + 'auth';
-  console.log(url, authData);
+  // console.log(url, authData);
 
   try {
     const res = await axios.post(url, authData, API_JSON_HEADER);
 
-    console.log(res.data);
+    // console.log(res.data);
 
     if (res.status === 200) {
       const token = res.data.token;

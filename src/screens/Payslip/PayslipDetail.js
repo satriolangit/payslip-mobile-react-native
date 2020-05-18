@@ -5,7 +5,7 @@ import Pdf from 'react-native-pdf';
 
 class PayslipDetailScreen extends Component {
   render() {
-    console.log(this.props.source);
+    // console.log(this.props.source);
     return (
       <View style={styles.container}>
         <Pdf

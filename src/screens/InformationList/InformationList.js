@@ -26,8 +26,6 @@ import {API_URL, API_JSON_HEADER, LIST_PAGE_SIZE} from '../../../appSetting';
 import ListItem from '../../components/InformationListItem/InformationListItem';
 import {showDangerToast, showInfoToast} from '../../helper';
 
-// eslint-disable-next-line react-native/no-inline-styles
-
 class InformationList extends Component {
   constructor(props) {
     super(props);
@@ -80,7 +78,7 @@ class InformationList extends Component {
         return item;
       });
 
-      console.log(data.length, 'totalData:', res.data.totalData);
+      // console.log(data.length, 'totalData:', res.data.totalData);
       this.setState({totalData: res.data.totalData});
 
       return data;

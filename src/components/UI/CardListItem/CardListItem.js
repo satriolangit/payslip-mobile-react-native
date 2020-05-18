@@ -5,8 +5,8 @@ import moment from 'moment';
 
 class CardListItem extends Component {
   renderText = text => {
-    let cleanText = text.replace('&nbsp;', ' ');
-    cleanText = cleanText.replace(/(<([^>]+)>)/gi, '');
+    let cleanText = text.replace(/&nbsp;/gi, ' ');
+    cleanText = cleanText.replace(/(<([^>]+)>)/gi, ' ');
     let result = cleanText;
     if (cleanText.length > 100) {
       result = cleanText.substr(0, 100) + '...';

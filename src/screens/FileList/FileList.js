@@ -94,7 +94,7 @@ class FileList extends Component {
 
       return data;
     } catch (err) {
-      //showDangerToast(err);
+      showDangerToast('Gagal mengambil data, silahkan hubungi admin.');
       console.log(err);
     }
   };
@@ -170,6 +170,7 @@ class FileList extends Component {
 
     this.setState({
       data: selectAll,
+      active: false,
       selectedItems: this.state.isSelectAll
         ? selectAll.map(item => item.idx)
         : [],
@@ -184,17 +185,16 @@ class FileList extends Component {
         const url = API_URL + 'upload/bulkdelete';
         await axios.post(url, {ids: selectedItems}, API_JSON_HEADER);
 
-        this.setState({isRefreshing: true});
-        const data = await this.fetchData(1);
-
-        this.setState({data: data, isRefreshing: false, selectedItems: []});
+        this.handleRefresh();
       } catch (err) {
         //showDangerToast(err);
         console.log(err);
       }
     }
 
-    console.log('selectedItems:', selectedItems);
+    this.setState({active: false});
+
+    // console.log('selectedItems:', selectedItems);
   };
 
   handleCopy = async path => {
@@ -223,6 +223,8 @@ class FileList extends Component {
         },
       },
     });
+
+    this.setState({active: false});
   };
 
   handleDownload = filename => {
@@ -401,8 +403,8 @@ class FileList extends Component {
                 <ListItem
                   data={item}
                   onSelected={() => this.handleSelectItem(item)}
-                  onLongPress={() => this.handleCopy(item.path)}
-                  onPress={() => this.handleDownload(item.filename)}
+                  onLongPress={() => this.handleSelectItem(item)}
+                  onPress={() => this.handleCopy(item.path)}
                   style={item.selectedClass}
                   selected={item.isSelected}
                 />

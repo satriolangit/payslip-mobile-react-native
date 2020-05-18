@@ -50,7 +50,7 @@ class InformationDetailScreen extends Component {
 
     const CUSTOM_RENDERERS = {
       img: htmlAttribs => {
-        console.log('htmlAttribut:', htmlAttribs);
+        //console.log('htmlAttribut:', htmlAttribs);
         return (
           <TouchableOpacity
             onLongPress={() => this.handleImagePress(htmlAttribs.src)}>
