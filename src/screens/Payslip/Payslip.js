@@ -160,9 +160,7 @@ class PayslipScreen extends Component {
   };
 
   renderFileDate = () => {
-    const month = moment()
-      .month(this.state.payslip.month)
-      .format('MMMM');
+    const month = moment(this.state.payslip.month, 'MM').format('MMMM');
 
     return month + ' ' + this.state.payslip.year;
   };
