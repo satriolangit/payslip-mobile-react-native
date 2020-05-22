@@ -4,28 +4,26 @@ import {Radio} from 'native-base';
 import moment from 'moment';
 
 const PayslipListItem = props => {
+  const {id, filename, month, year, last_download_on} = props.data;
+
   const lastDownload =
-    props.data.last_download_on === null
+    last_download_on === null
       ? '-'
-      : moment(props.data.last_download_on).format('DD MMM YYYY, HH:mm:ss');
+      : moment(last_download_on).format('DD MMM YYYY, HH:mm:ss');
+
+  const periode = `Periode : ${moment(month, 'MM').format('MMMM')} ${year}`;
 
   return (
     <TouchableOpacity
       style={[styles.container, props.style]}
-      onLongPress={() => props.onLongPress(props.data.id)}
-      onPress={() => props.onPress(props.data.filename)}>
+      onLongPress={() => props.onLongPress(id)}
+      onPress={() => props.onPress(filename)}>
       <View style={styles.itemContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{props.data.filename}</Text>
+          <Text style={styles.title}>{filename}</Text>
         </View>
         <View style={styles.subtitleContainer}>
-          <Text style={styles.textMuted}>
-            Periode :{' '}
-            {moment()
-              .month(props.data.month)
-              .format('MMMM')}{' '}
-            {props.data.year}
-          </Text>
+          <Text style={styles.textMuted}>{periode}</Text>
           <Text style={styles.textMuted}>
             Downloads :{props.data.download_count}
           </Text>
