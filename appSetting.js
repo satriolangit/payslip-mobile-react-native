@@ -1,6 +1,6 @@
-export const API_URL = 'http://156.67.221.93:3001/api/';
-export const PAYSLIP_URL = 'http://156.67.221.93:3001/payslip/';
-export const FILE_URL = 'http://156.67.221.93:3001/files/';
+export const API_URL = 'https://www.hrinformationsystem.com:3001/api/';
+export const PAYSLIP_URL = 'https://www.hrinformationsystem.com:3001/payslip/';
+export const FILE_URL = 'https://www.hrinformationsystem.com:3001/files/';
 
 // export const API_URL = 'http://192.168.0.21:3001/api/';
 // export const PAYSLIP_URL = 'http://192.168.0.21:3001/payslip/';
